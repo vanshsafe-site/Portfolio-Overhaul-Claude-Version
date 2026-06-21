@@ -59,10 +59,10 @@ document.addEventListener(
 ========================= */
 
 const SUPABASE_URL =
-    "YOUR_URL";
+    "https://thccglhmiivjgfcbnapa.supabase.co";
 
 const SUPABASE_ANON_KEY =
-    "YOUR_KEY";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoY2NnbGhtaWl2amdmY2JuYXBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNDUwNDEsImV4cCI6MjA5NzYyMTA0MX0.mtVKuWQWcEOPglJ72vDS41-AAksIrl7AFfGEabQK1Hk";
 
 const supabaseClient =
     supabase.createClient(
@@ -171,3 +171,66 @@ async function loadProject() {
 }
 
 loadProject();
+
+/* =========================
+   PROJECTS
+========================= */
+
+async function loadFeaturedProjects() {
+
+    const container =
+        document.getElementById(
+            "featured-projects"
+        );
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("projects")
+            .select("*")
+            .eq("featured", true);
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Failed to load projects.</p>";
+
+        return;
+    }
+
+    container.innerHTML =
+        data.map(project => `
+
+            <div class="card">
+
+                <h3>${project.title}</h3>
+
+                <p>${project.description}</p>
+
+                <a
+                    href="project.html?slug=${project.slug}"
+                    class="btn btn-primary">
+
+                    View Project
+
+                </a>
+
+            </div>
+
+        `).join("");
+}
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        console.log(
+            "Portfolio Loaded"
+        );
+
+        loadFeaturedProjects();
+
+    }
+);
