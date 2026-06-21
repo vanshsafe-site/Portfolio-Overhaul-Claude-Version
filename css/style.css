@@ -276,3 +276,31 @@ footer {
     }
 
 }
+
+.project-page {
+
+    max-width: 900px;
+
+    margin: auto;
+}
+
+.project-image {
+
+    width: 100%;
+
+    border-radius: var(--radius);
+
+    margin-bottom: 2rem;
+}
+
+.project-page h1 {
+
+    margin-bottom: 1rem;
+}
+
+.project-page p {
+
+    margin-bottom: 2rem;
+
+    color: var(--text-light);
+}
