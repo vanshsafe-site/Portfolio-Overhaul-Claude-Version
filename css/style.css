@@ -304,3 +304,52 @@ footer {
 
     color: var(--text-light);
 }
+.page-description {
+
+    text-align: center;
+
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    color: var(--text-light);
+
+    font-size: 1.1rem;
+}
+
+.project-page {
+
+    max-width: 900px;
+
+    margin: auto;
+}
+
+.project-image {
+
+    width: 100%;
+
+    border-radius: var(--radius);
+
+    margin-bottom: 2rem;
+}
+
+.project-page h1 {
+
+    margin-bottom: 1rem;
+}
+
+.project-page p {
+
+    color: var(--text-light);
+
+    margin-bottom: 2rem;
+}
+
+.project-actions {
+
+    display: flex;
+
+    gap: 1rem;
+
+    flex-wrap: wrap;
+}

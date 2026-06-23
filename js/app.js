@@ -51,8 +51,21 @@ document.addEventListener(
             "Portfolio Loaded"
         );
 
+        loadFeaturedProjects();
+        loadProjects();
+        loadProject();
+
+        loadVentures();
+        loadAllVentures();
+        loadVenture();
+
+        loadAchievements();
+        loadAllAchievements();
+        loadAchievement();
+
     }
 );
+
 
 /* =========================
    SUPABASE
@@ -84,13 +97,19 @@ async function loadProject() {
 
     if (!container) return;
 
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
+    console.log("STEP 1");
 
-    const slug =
-        params.get("slug");
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+console.log("STEP 2");
+const slug =
+    params.get("slug");
+
+console.log("STEP 3");
+console.log("Slug:", slug);
 
     if (!slug) {
 
@@ -168,10 +187,135 @@ async function loadProject() {
         </div>
 
     `;
+    }
+    
+/* =========================
+   VENTURE PAGE
+========================= */
+
+async function loadVenture() {
+
+    const container =
+        document.getElementById(
+            "venture-container"
+        );
+
+    if (!container) return;
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const slug =
+        params.get("slug");
+
+    if (!slug) {
+
+        container.innerHTML =
+            "<p>Venture not found.</p>";
+
+        return;
+    }
+
+    const { data, error } =
+        await supabaseClient
+            .from("ventures")
+            .select("*")
+            .eq("slug", slug)
+            .single();
+
+    if (error || !data) {
+
+        container.innerHTML =
+            "<p>Venture not found.</p>";
+
+        return;
+    }
+
+    document.title =
+        data.name + " | Vansh Garg";
+
+    container.innerHTML = `
+
+        <div class="project-page">
+
+            <h1>
+                ${data.name}
+            </h1>
+
+            <p>
+                ${data.description}
+            </p>
+
+        </div>
+
+    `;
 }
+/* =========================
+   ACHIEVEMENT PAGE
+========================= */
 
-loadProject();
+async function loadAchievement() {
+    console.log("loadAchievement running");
+    const container =
+        document.getElementById(
+            "achievement-container"
+        );
 
+    if (!container) return;
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const slug =
+        params.get("slug");
+        console.log("Slug:", slug);
+
+    if (!slug) {
+
+        container.innerHTML =
+            "<p>Achievement not found.</p>";
+
+        return;
+    }
+
+    const { data, error } =
+        await supabaseClient
+            .from("achievements")
+            .select("*")
+            .eq("slug", slug)
+            .single();
+console.log(data, error);
+    if (error || !data) {
+
+        container.innerHTML =
+            "<p>Achievement not found.</p>";
+
+        return;
+    }
+
+    document.title =
+        data.title + " | Vansh Garg";
+
+    container.innerHTML = `
+
+        <div class="project-page">
+
+            <h1>
+                ${data.title}
+            </h1>
+
+            <p>
+                ${data.description}
+            </p>
+
+        </div>
+
+    `;
+}
 /* =========================
    PROJECTS
 ========================= */
@@ -222,15 +366,295 @@ async function loadFeaturedProjects() {
 
         `).join("");
 }
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
 
-        console.log(
-            "Portfolio Loaded"
+/* =========================
+   ALL PROJECTS
+========================= */
+
+async function loadProjects() {
+
+    const container =
+        document.getElementById(
+            "projects-grid"
         );
 
-        loadFeaturedProjects();
+    if (!container) return;
 
+    const { data, error } =
+        await supabaseClient
+            .from("projects")
+            .select("*")
+            .order(
+                "created_at",
+                { ascending: false }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Failed to load projects.</p>";
+
+        return;
     }
-);
+
+    container.innerHTML =
+        data.map(project => `
+
+            <div class="card">
+
+                <h3>
+                    ${project.title}
+                </h3>
+
+                <p>
+                    ${project.description}
+                </p>
+
+                <a
+                    href="project.html?slug=${project.slug}"
+                    class="btn btn-primary">
+
+                    View Project
+
+                </a>
+
+            </div>
+
+        `).join("");
+}
+
+
+
+/* =========================
+   ACHIEVEMENTS
+========================= */
+
+async function loadAchievements() {
+
+    const container =
+        document.getElementById(
+            "achievements-grid"
+        );
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("achievements")
+            .select("*")
+            .eq("featured", true)
+            .order(
+                "achievement_date",
+                { ascending: false }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Failed to load achievements.</p>";
+
+        return;
+    }
+
+    container.innerHTML =
+        data.map(item => `
+
+            <div class="card">
+
+                <h3>
+                    ${item.title}
+                </h3>
+
+                <p>
+                    ${item.description}
+                </p>
+
+                <a
+                    href="achievement.html?slug=${item.slug}"
+                    class="btn btn-primary">
+
+                    View Achievement
+
+                </a>
+
+            </div>
+
+        `).join("");
+}
+/* =========================
+   VENTURES
+========================= */
+
+async function loadVentures() {
+    
+    const container =
+        document.getElementById(
+            "ventures-grid"
+        );
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("ventures")
+            .select("*")
+            .eq("featured", true)
+            .order(
+                "created_at",
+                { ascending: false }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Failed to load ventures.</p>";
+
+        return;
+    }
+
+    container.innerHTML =
+        data.map(venture => `
+
+            <div class="card">
+
+    <h3>
+        ${venture.name}
+    </h3>
+
+    <p>
+        ${venture.description}
+    </p>
+
+    <a
+        href="venture.html?slug=${venture.slug}"
+        class="btn btn-primary">
+
+        View Venture
+
+    </a>
+
+</div>
+
+        `).join("");
+}
+/* =========================
+   ALL VENTURES
+========================= */
+
+async function loadAllVentures() {
+
+    const container =
+        document.getElementById(
+            "ventures-page-grid"
+        );
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("ventures")
+            .select("*")
+            .order(
+                "created_at",
+                { ascending: false }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Failed to load ventures.</p>";
+
+        return;
+    }
+
+    container.innerHTML =
+        data.map(venture => `
+
+            <div class="card">
+
+    <h3>
+        ${venture.name}
+    </h3>
+
+    <p>
+        ${venture.description}
+    </p>
+
+    <a
+        href="venture.html?slug=${venture.slug}"
+        class="btn btn-primary">
+
+        View Venture
+
+    </a>
+
+</div>
+
+        `).join("");
+}
+
+/* =========================
+   ALL ACHIEVEMENTS
+========================= */
+
+async function loadAllAchievements() {
+
+    const container =
+        document.getElementById(
+            "achievements-page-grid"
+        );
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("achievements")
+            .select("*")
+            .order(
+                "achievement_date",
+                { ascending: false }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Failed to load achievements.</p>";
+
+        return;
+    }
+
+    container.innerHTML =
+        data.map(item => `
+
+            <div class="card">
+
+    <h3>
+        ${item.title}
+    </h3>
+
+    <p>
+        ${item.description}
+    </p>
+
+    <a
+        href="achievement.html?slug=${item.slug}"
+        class="btn btn-primary">
+
+        View Achievement
+
+    </a>
+
+</div>
+
+        `).join("");
+}
