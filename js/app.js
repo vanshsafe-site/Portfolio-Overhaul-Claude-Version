@@ -62,7 +62,66 @@ document.addEventListener(
         loadAchievements();
         loadAllAchievements();
         loadAchievement();
+        loadDashboardStats();
+        protectAdminPage();
+        const projectForm =
+    document.getElementById(
+        "project-form"
+    );
 
+if (projectForm) {
+
+    projectForm.addEventListener(
+        "submit",
+        createProject
+    );
+
+    loadAdminProjects();
+
+}
+const ventureForm =
+    document.getElementById(
+        "venture-form"
+    );
+
+if (ventureForm) {
+
+    ventureForm.addEventListener(
+        "submit",
+        createVenture
+    );
+
+    loadAdminVentures();
+
+}
+const achievementForm =
+    document.getElementById(
+        "achievement-form"
+    );
+
+if (achievementForm) {
+
+    achievementForm.addEventListener(
+        "submit",
+        createAchievement
+    );
+
+    loadAdminAchievements();
+
+}
+const loginForm =
+    document.getElementById(
+        "login-form"
+    );
+
+if (loginForm) {
+
+    loginForm.addEventListener(
+        "submit",
+        login
+    );
+
+}
     }
 );
 
@@ -82,7 +141,9 @@ const supabaseClient =
         SUPABASE_URL,
         SUPABASE_ANON_KEY
     );
-
+let editingProjectId = null;
+let editingVentureId = null;
+let editingAchievementId = null;
 
 /* =========================
    PROJECT PAGE
@@ -657,4 +718,959 @@ async function loadAllAchievements() {
 </div>
 
         `).join("");
+}
+
+
+/* =========================
+   ADMIN PROJECTS
+========================= */
+
+async function loadAdminProjects() {
+
+    const container =
+        document.getElementById(
+            "admin-projects"
+        );
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("projects")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Failed to load projects.</p>";
+
+        return;
+    }
+
+    container.innerHTML =
+    data.map(project => `
+
+        <div class="card">
+
+            <h3>
+                ${project.title}
+            </h3>
+
+            <p>
+                ${project.description}
+            </p>
+
+            <button
+                onclick="editProject(${project.id})">
+
+                Edit
+
+            </button>
+
+            <button
+                onclick="deleteProject(${project.id})">
+
+                Delete
+
+            </button>
+
+        </div>
+
+    `).join("");
+
+    }
+async function createProject(event) {
+
+    event.preventDefault();
+
+    const title =
+        document.getElementById(
+            "title"
+        ).value;
+
+    const slug =
+        document.getElementById(
+            "slug"
+        ).value;
+
+    const description =
+        document.getElementById(
+            "description"
+        ).value;
+
+    const image =
+        document.getElementById(
+            "image"
+        ).value;
+
+    const github_url =
+        document.getElementById(
+            "github"
+        ).value;
+
+    const live_url =
+        document.getElementById(
+            "live"
+        ).value;
+
+    const featured =
+        document.getElementById(
+            "featured"
+        ).checked;
+
+
+        let error;
+
+if (editingProjectId) {
+
+    const result =
+        await supabaseClient
+            .from("projects")
+            .update({
+                title,
+                slug,
+                description,
+                image,
+                github_url,
+                live_url,
+                featured
+            })
+            .eq(
+                "id",
+                editingProjectId
+            );
+
+    error = result.error;
+
+} else {
+
+    const result =
+        await supabaseClient
+            .from("projects")
+            .insert([
+                {
+                    title,
+                    slug,
+                    description,
+                    image,
+                    github_url,
+                    live_url,
+                    featured
+                }
+            ]);
+
+    error = result.error;
+
+}
+            ;
+
+    if (error) {
+
+    console.error(error);
+
+    alert(
+        editingProjectId
+            ? "Failed to update project"
+            : "Failed to create project"
+    );
+
+    return;
+}
+
+    alert(
+    editingProjectId
+        ? "Project updated"
+        : "Project created"
+);
+
+    document
+        .getElementById(
+            "project-form"
+        )
+        .reset();
+editingProjectId = null;
+
+document.querySelector(
+    "#project-form button"
+).textContent =
+    "Add Project";
+    loadAdminProjects();
+
+}
+
+async function deleteProject(id) {
+
+    const confirmed =
+        confirm(
+            "Delete this project?"
+        );
+
+    if (!confirmed) return;
+
+    const { error } =
+        await supabaseClient
+            .from("projects")
+            .delete()
+            .eq("id", id);
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Delete failed");
+
+        return;
+    }
+
+    loadAdminProjects();
+
+}
+
+async function editProject(id) {
+
+    const { data, error } =
+        await supabaseClient
+            .from("projects")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+    if (error || !data) {
+
+        console.error(error);
+
+        return;
+    }
+
+    editingProjectId = id;
+
+    document.getElementById(
+        "title"
+    ).value =
+        data.title || "";
+
+    document.getElementById(
+        "slug"
+    ).value =
+        data.slug || "";
+
+    document.getElementById(
+        "description"
+    ).value =
+        data.description || "";
+
+    document.getElementById(
+        "image"
+    ).value =
+        data.image || "";
+
+    document.getElementById(
+        "github"
+    ).value =
+        data.github_url || "";
+
+    document.getElementById(
+        "live"
+    ).value =
+        data.live_url || "";
+
+    document.getElementById(
+        "featured"
+    ).checked =
+        data.featured || false;
+
+    document.querySelector(
+        "#project-form button"
+    ).textContent =
+        "Update Project";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+/* =========================
+   ADMIN VENTURES
+========================= */
+
+async function loadAdminVentures() {
+
+    const container =
+        document.getElementById(
+            "admin-ventures"
+        );
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("ventures")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+    container.innerHTML =
+        data.map(venture => `
+
+            <div class="card">
+
+                <h3>
+                    ${venture.name}
+                </h3>
+
+                <p>
+                    ${venture.description}
+                </p>
+
+                <button
+                    onclick="editVenture(${venture.id})">
+
+                    Edit
+
+                </button>
+
+                <button
+                    onclick="deleteVenture(${venture.id})">
+
+                    Delete
+
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+async function createVenture(event) {
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById(
+            "venture-name"
+        ).value;
+
+    const slug =
+        document.getElementById(
+            "venture-slug"
+        ).value;
+
+    const description =
+        document.getElementById(
+            "venture-description"
+        ).value;
+
+    const website =
+        document.getElementById(
+            "venture-website"
+        ).value;
+
+    const logo =
+        document.getElementById(
+            "venture-logo"
+        ).value;
+
+    const featured =
+        document.getElementById(
+            "venture-featured"
+        ).checked;
+
+    let error;
+
+    if (editingVentureId) {
+
+        const result =
+            await supabaseClient
+                .from("ventures")
+                .update({
+                    name,
+                    slug,
+                    description,
+                    website,
+                    logo,
+                    featured
+                })
+                .eq(
+                    "id",
+                    editingVentureId
+                );
+
+        error = result.error;
+
+    } else {
+
+        const result =
+            await supabaseClient
+                .from("ventures")
+                .insert([
+                    {
+                        name,
+                        slug,
+                        description,
+                        website,
+                        logo,
+                        featured
+                    }
+                ]);
+
+        error = result.error;
+
+    }
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Save failed");
+
+        return;
+    }
+
+    alert(
+        editingVentureId
+            ? "Venture updated"
+            : "Venture created"
+    );
+
+    document
+        .getElementById(
+            "venture-form"
+        )
+        .reset();
+
+    editingVentureId = null;
+
+    document.querySelector(
+        "#venture-form button"
+    ).textContent =
+        "Add Venture";
+
+    loadAdminVentures();
+
+}
+
+
+async function editVenture(id) {
+
+    const { data, error } =
+        await supabaseClient
+            .from("ventures")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+    editingVentureId = id;
+
+    document.getElementById(
+        "venture-name"
+    ).value =
+        data.name || "";
+
+    document.getElementById(
+        "venture-slug"
+    ).value =
+        data.slug || "";
+
+    document.getElementById(
+        "venture-description"
+    ).value =
+        data.description || "";
+
+    document.getElementById(
+        "venture-website"
+    ).value =
+        data.website || "";
+
+    document.getElementById(
+        "venture-logo"
+    ).value =
+        data.logo || "";
+
+    document.getElementById(
+        "venture-featured"
+    ).checked =
+        data.featured || false;
+
+    document.querySelector(
+        "#venture-form button"
+    ).textContent =
+        "Update Venture";
+
+}
+
+
+async function deleteVenture(id) {
+
+    if (
+        !confirm(
+            "Delete venture?"
+        )
+    ) return;
+
+    const { error } =
+        await supabaseClient
+            .from("ventures")
+            .delete()
+            .eq("id", id);
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Delete failed"
+        );
+
+        return;
+    }
+
+    loadAdminVentures();
+
+}
+
+/* =========================
+   ADMIN ACHIEVEMENTS
+========================= */
+
+async function loadAdminAchievements() {
+
+    const container =
+        document.getElementById(
+            "admin-achievements"
+        );
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("achievements")
+            .select("*")
+            .order(
+                "achievement_date",
+                {
+                    ascending: false
+                }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+    container.innerHTML =
+        data.map(item => `
+
+            <div class="card">
+
+                <h3>
+                    ${item.title}
+                </h3>
+
+                <p>
+                    ${item.description}
+                </p>
+
+                <button
+                    onclick="editAchievement(${item.id})">
+
+                    Edit
+
+                </button>
+
+                <button
+                    onclick="deleteAchievement(${item.id})">
+
+                    Delete
+
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+async function createAchievement(event) {
+
+    event.preventDefault();
+
+    const title =
+        document.getElementById(
+            "achievement-title"
+        ).value;
+
+    const slug =
+        document.getElementById(
+            "achievement-slug"
+        ).value;
+
+    const description =
+        document.getElementById(
+            "achievement-description"
+        ).value;
+
+    const image =
+        document.getElementById(
+            "achievement-image"
+        ).value;
+
+    const achievement_date =
+        document.getElementById(
+            "achievement-date"
+        ).value;
+
+    const featured =
+        document.getElementById(
+            "achievement-featured"
+        ).checked;
+
+    let error;
+
+    if (editingAchievementId) {
+
+        const result =
+            await supabaseClient
+                .from("achievements")
+                .update({
+                    title,
+                    slug,
+                    description,
+                    image,
+                    achievement_date,
+                    featured
+                })
+                .eq(
+                    "id",
+                    editingAchievementId
+                );
+
+        error = result.error;
+
+    } else {
+
+        const result =
+            await supabaseClient
+                .from("achievements")
+                .insert([
+                    {
+                        title,
+                        slug,
+                        description,
+                        image,
+                        achievement_date,
+                        featured
+                    }
+                ]);
+
+        error = result.error;
+
+    }
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Save failed");
+
+        return;
+    }
+
+    alert(
+        editingAchievementId
+            ? "Achievement updated"
+            : "Achievement created"
+    );
+
+    document
+        .getElementById(
+            "achievement-form"
+        )
+        .reset();
+
+    editingAchievementId = null;
+
+    document.querySelector(
+        "#achievement-form button"
+    ).textContent =
+        "Add Achievement";
+
+    loadAdminAchievements();
+
+}
+
+
+async function editAchievement(id) {
+
+    const { data, error } =
+        await supabaseClient
+            .from("achievements")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+    editingAchievementId = id;
+
+    document.getElementById(
+        "achievement-title"
+    ).value =
+        data.title || "";
+
+    document.getElementById(
+        "achievement-slug"
+    ).value =
+        data.slug || "";
+
+    document.getElementById(
+        "achievement-description"
+    ).value =
+        data.description || "";
+
+    document.getElementById(
+        "achievement-image"
+    ).value =
+        data.image || "";
+
+    document.getElementById(
+        "achievement-date"
+    ).value =
+        data.achievement_date || "";
+
+    document.getElementById(
+        "achievement-featured"
+    ).checked =
+        data.featured || false;
+
+    document.querySelector(
+        "#achievement-form button"
+    ).textContent =
+        "Update Achievement";
+
+}
+
+
+async function deleteAchievement(id) {
+
+    if (
+        !confirm(
+            "Delete achievement?"
+        )
+    ) return;
+
+    const { error } =
+        await supabaseClient
+            .from("achievements")
+            .delete()
+            .eq("id", id);
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Delete failed"
+        );
+
+        return;
+    }
+
+    loadAdminAchievements();
+
+}
+
+/* =========================
+   ADMIN DASHBOARD
+========================= */
+
+async function loadDashboardStats() {
+
+    const projectsCount =
+        document.getElementById(
+            "projects-count"
+        );
+
+    if (!projectsCount) return;
+
+    const {
+        count: projectTotal
+    } =
+        await supabaseClient
+            .from("projects")
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
+                }
+            );
+
+    const {
+        count: ventureTotal
+    } =
+        await supabaseClient
+            .from("ventures")
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
+                }
+            );
+
+    const {
+        count: achievementTotal
+    } =
+        await supabaseClient
+            .from("achievements")
+            .select(
+                "*",
+                {
+                    count: "exact",
+                    head: true
+                }
+            );
+
+    document.getElementById(
+        "projects-count"
+    ).textContent =
+        projectTotal || 0;
+
+    document.getElementById(
+        "ventures-count"
+    ).textContent =
+        ventureTotal || 0;
+
+    document.getElementById(
+        "achievements-count"
+    ).textContent =
+        achievementTotal || 0;
+
+}
+
+/* =========================
+   ADMIN LOGIN
+========================= */
+
+async function login(event) {
+
+    event.preventDefault();
+
+    const email =
+        document.getElementById(
+            "login-email"
+        ).value;
+
+    const password =
+        document.getElementById(
+            "login-password"
+        ).value;
+
+    const { error } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email,
+            password
+
+        });
+
+    if (error) {
+
+        alert(
+            error.message
+        );
+
+        return;
+    }
+
+    window.location.href =
+        "dashboard.html";
+
+}
+/* =========================
+   AUTH GUARD
+========================= */
+
+async function protectAdminPage() {
+
+    const {
+        data: {
+            session
+        }
+    } =
+        await supabaseClient.auth.getSession();
+
+    const isAdminPage =
+
+        window.location.pathname.includes(
+            "/admin/"
+        )
+
+        &&
+
+        !window.location.pathname.includes(
+            "login.html"
+        );
+
+    if (
+        isAdminPage &&
+        !session
+    ) {
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+        "login.html";
+
 }

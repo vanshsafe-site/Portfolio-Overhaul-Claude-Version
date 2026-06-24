@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Achievements</title>
+    <button
+    onclick="logout()"
+    class="btn">
+
+    Logout
+
+</button>
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>
+        Achievement Manager
+    </h1>
+
+    <form id="achievement-form">
+
+        <input
+            type="text"
+            id="achievement-title"
+            placeholder="Achievement Title"
+            required>
+
+        <input
+            type="text"
+            id="achievement-slug"
+            placeholder="achievement-slug"
+            required>
+
+        <textarea
+            id="achievement-description"
+            placeholder="Description"></textarea>
+
+        <input
+            type="text"
+            id="achievement-image"
+            placeholder="Image URL">
+
+        <input
+            type="date"
+            id="achievement-date">
+
+        <label>
+
+            <input
+                type="checkbox"
+                id="achievement-featured">
+
+            Featured
+
+        </label>
+
+        <button
+            type="submit">
+
+            Add Achievement
+
+        </button>
+
+    </form>
+
+    <hr>
+
+    <div id="admin-achievements">
+
+        Loading...
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/app.js"></script>
+
+</body>
+</html>

@@ -7,15 +7,14 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Admin Projects</title>
-    <button
+    <title>Admin Ventures</title>
+<button
     onclick="logout()"
     class="btn">
 
     Logout
 
 </button>
-
     <link rel="stylesheet"
           href="../css/style.css">
 
@@ -25,47 +24,42 @@
 <div class="container">
 
     <h1>
-        Project Manager
+        Venture Manager
     </h1>
 
-    <form id="project-form">
+    <form id="venture-form">
 
         <input
             type="text"
-            id="title"
-            placeholder="Project Title"
+            id="venture-name"
+            placeholder="Venture Name"
             required>
 
         <input
             type="text"
-            id="slug"
-            placeholder="project-slug"
+            id="venture-slug"
+            placeholder="venture-slug"
             required>
 
         <textarea
-            id="description"
+            id="venture-description"
             placeholder="Description"></textarea>
 
         <input
             type="text"
-            id="image"
-            placeholder="Image URL">
+            id="venture-website"
+            placeholder="Website URL">
 
         <input
             type="text"
-            id="github"
-            placeholder="GitHub URL">
-
-        <input
-            type="text"
-            id="live"
-            placeholder="Live URL">
+            id="venture-logo"
+            placeholder="Logo URL">
 
         <label>
 
             <input
                 type="checkbox"
-                id="featured">
+                id="venture-featured">
 
             Featured
 
@@ -74,7 +68,7 @@
         <button
             type="submit">
 
-            Add Project
+            Add Venture
 
         </button>
 
@@ -82,7 +76,7 @@
 
     <hr>
 
-    <div id="admin-projects">
+    <div id="admin-ventures">
 
         Loading...
 
