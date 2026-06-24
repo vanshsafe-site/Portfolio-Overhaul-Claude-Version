@@ -64,6 +64,21 @@ document.addEventListener(
         loadAchievement();
         loadDashboardStats();
         protectAdminPage();
+
+        const achievementImageInput =
+    document.getElementById(
+        "achievement-image-file"
+    );
+
+if (achievementImageInput) {
+
+    achievementImageInput.addEventListener(
+        "change",
+        uploadAchievementImage
+    );
+
+}
+
         const projectForm =
     document.getElementById(
         "project-form"
@@ -358,24 +373,32 @@ console.log(data, error);
         return;
     }
 
-    document.title =
-        data.title + " | Vansh Garg";
-
     container.innerHTML = `
 
-        <div class="project-page">
+    <div class="project-page">
 
-            <h1>
-                ${data.title}
-            </h1>
+        ${
+            data.image
+            ? `
+            <img
+                src="${data.image}"
+                alt="${data.title}"
+                class="project-image">
+            `
+            : ""
+        }
 
-            <p>
-                ${data.description}
-            </p>
+        <h1>
+            ${data.title}
+        </h1>
 
-        </div>
+        <p>
+            ${data.description}
+        </p>
 
-    `;
+    </div>
+
+`;
 }
 /* =========================
    PROJECTS
@@ -446,9 +469,9 @@ async function loadProjects() {
             .from("projects")
             .select("*")
             .order(
-                "created_at",
-                { ascending: false }
-            );
+    "created_at",
+    { ascending: false }
+)
 
     if (error) {
 
@@ -507,9 +530,9 @@ async function loadAchievements() {
             .select("*")
             .eq("featured", true)
             .order(
-                "achievement_date",
-                { ascending: false }
-            );
+    "created_at",
+    { ascending: false }
+)
 
     if (error) {
 
@@ -680,9 +703,9 @@ async function loadAllAchievements() {
             .from("achievements")
             .select("*")
             .order(
-                "achievement_date",
-                { ascending: false }
-            );
+    "created_at",
+    { ascending: false }
+)
 
     if (error) {
 
@@ -1347,10 +1370,7 @@ async function createAchievement(event) {
             "achievement-image"
         ).value;
 
-    const achievement_date =
-        document.getElementById(
-            "achievement-date"
-        ).value;
+   ;
 
     const featured =
         document.getElementById(
@@ -1369,7 +1389,6 @@ async function createAchievement(event) {
                     slug,
                     description,
                     image,
-                    achievement_date,
                     featured
                 })
                 .eq(
@@ -1390,7 +1409,7 @@ async function createAchievement(event) {
                         slug,
                         description,
                         image,
-                        achievement_date,
+                        
                         featured
                     }
                 ]);
@@ -1401,12 +1420,20 @@ async function createAchievement(event) {
 
     if (error) {
 
-        console.error(error);
+    console.error(
+        JSON.stringify(
+            error,
+            null,
+            2
+        )
+    );
 
-        alert("Save failed");
+    alert(
+        error.message
+    );
 
-        return;
-    }
+    return;
+}
 
     alert(
         editingAchievementId
@@ -1672,5 +1699,135 @@ async function logout() {
 
     window.location.href =
         "login.html";
+
+}
+
+/* =========================
+   IMAGE UPLOAD
+========================= */
+
+async function uploadProjectImage() {
+
+    const fileInput =
+        document.getElementById(
+            "project-image-file"
+        );
+
+    if (
+        !fileInput ||
+        !fileInput.files.length
+    ) return;
+
+    const file =
+        fileInput.files[0];
+
+    const fileName =
+        Date.now() +
+        "-" +
+        file.name;
+
+    const { error } =
+        await supabaseClient
+            .storage
+            .from(
+                "portfolio-images"
+            )
+            .upload(
+                fileName,
+                file
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            error.message
+        );
+
+        return;
+    }
+
+    const { data } =
+        supabaseClient
+            .storage
+            .from(
+                "portfolio-images"
+            )
+            .getPublicUrl(
+                fileName
+            );
+
+    document.getElementById(
+        "image"
+    ).value =
+        data.publicUrl;
+
+}
+/* =========================
+   ACHIEVEMENT IMAGE UPLOAD
+========================= */
+
+async function uploadAchievementImage() {
+
+    const fileInput =
+        document.getElementById(
+            "achievement-image-file"
+        );
+
+    if (
+        !fileInput ||
+        !fileInput.files.length
+    ) return;
+
+    const file =
+        fileInput.files[0];
+
+    const fileName =
+        Date.now() +
+        "-" +
+        file.name;
+
+    const { error } =
+        await supabaseClient
+            .storage
+            .from(
+                "portfolio-images"
+            )
+            .upload(
+                fileName,
+                file
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+    const { data } =
+        supabaseClient
+            .storage
+            .from(
+                "portfolio-images"
+            )
+            .getPublicUrl(
+                fileName
+            );
+
+    document.getElementById(
+        "achievement-image"
+    ).value =
+        data.publicUrl;
+
+    alert(
+        "Certificate uploaded successfully"
+    );
 
 }
