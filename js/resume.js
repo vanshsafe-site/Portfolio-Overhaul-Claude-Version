@@ -1,384 +1,331 @@
-/* =========================
-   RESUME BUILDER
-========================= */
-
-let resumeProjects = [];
-let resumeVentures = [];
-let resumeAchievements = [];
-
-/* =========================
-   INIT
-========================= */
-
 document.addEventListener(
     "DOMContentLoaded",
-    initResume
+    () => {
+
+        document
+            .getElementById(
+                "download-pdf"
+            )
+            .addEventListener(
+                "click",
+                downloadPDF
+            );
+
+        document
+            .getElementById(
+                "download-docx"
+            )
+            .addEventListener(
+                "click",
+                downloadDOCX
+            );
+
+    }
 );
 
-async function initResume() {
+async function fetchResumeData() {
 
-    if (
-        typeof supabaseClient ===
-        "undefined"
-    ) {
-        console.error(
-            "Supabase not loaded."
-        );
-        return;
-    }
+    const {
+        data: projects
+    } =
+    await supabaseClient
+        .from("projects")
+        .select("*");
 
-    await loadResumeData();
+    const {
+        data: ventures
+    } =
+    await supabaseClient
+        .from("ventures")
+        .select("*");
 
-}
+    const {
+        data: achievements
+    } =
+    await supabaseClient
+        .from("achievements")
+        .select("*");
 
-/* =========================
-   LOAD DATA
-========================= */
+    return {
 
-async function loadResumeData() {
+        projects:
+            projects || [],
 
-    setStatus(
-        "Loading portfolio data...",
-        "loading"
-    );
+        ventures:
+            ventures || [],
 
-    const [
-        projectsResponse,
-        venturesResponse,
-        achievementsResponse
-    ] = await Promise.all([
+        achievements:
+            achievements || []
 
-        supabaseClient
-            .from("projects")
-            .select("*"),
-
-        supabaseClient
-            .from("ventures")
-            .select("*"),
-
-        supabaseClient
-            .from("achievements")
-            .select("*")
-
-    ]);
-
-    if (
-        projectsResponse.error ||
-        venturesResponse.error ||
-        achievementsResponse.error
-    ) {
-
-        console.error(
-            projectsResponse.error,
-            venturesResponse.error,
-            achievementsResponse.error
-        );
-
-        setStatus(
-            "Failed to load portfolio data.",
-            "error"
-        );
-
-        return;
-    }
-
-    resumeProjects =
-        projectsResponse.data || [];
-
-    resumeVentures =
-        venturesResponse.data || [];
-
-    resumeAchievements =
-        achievementsResponse.data || [];
-
-    updateStatistics();
-
-    document
-        .getElementById(
-            "btn-preview"
-        )
-        ?.removeAttribute(
-            "disabled"
-        );
-
-    setStatus(
-        "Portfolio data loaded. Click Preview Resume.",
-        "success"
-    );
+    };
 
 }
 
-/* =========================
-   STATISTICS
-========================= */
+async function buildResumeHTML() {
 
-function updateStatistics() {
+    const {
 
-    const projectsCount =
-        document.getElementById(
-            "stat-projects-count"
-        );
+        projects,
+        ventures,
+        achievements
 
-    const venturesCount =
-        document.getElementById(
-            "stat-ventures-count"
-        );
+    } =
+    await fetchResumeData();
 
-    const achievementsCount =
-        document.getElementById(
-            "stat-achievements-count"
-        );
+    return `
 
-    if (projectsCount)
-        projectsCount.textContent =
-            resumeProjects.length;
+        <h1>
+            Vansh Garg
+        </h1>
 
-    if (venturesCount)
-        venturesCount.textContent =
-            resumeVentures.length;
+        <p>
 
-    if (achievementsCount)
-        achievementsCount.textContent =
-            resumeAchievements.length;
+            Diploma Computer Science Engineering Student
+
+        </p>
+
+        <p>
+
+            ICSE Class 10:
+            94%
+
+            <br>
+
+            St. Joseph's College Prayagraj
+
+        </p>
+
+        <hr>
+
+        <h2>
+            Contact
+        </h2>
+
+        <p>
+
+            Email:
+            vanshgargvlcontact@gmail.com
+
+            <br>
+
+            Phone:
+            +91 8604645520
+
+            <br>
+
+            GitHub:
+            github.com/vanshsafe-site
+
+            <br>
+
+            LinkedIn:
+            linkedin.com/in/vansh-garg-vl777
+
+        </p>
+
+        <hr>
+
+        <h2>
+            Projects
+        </h2>
+
+        <ul>
+
+            ${projects
+                .map(
+                    p =>
+                    `<li>${p.title}</li>`
+                )
+                .join("")}
+
+        </ul>
+
+        <hr>
+
+        <h2>
+            Ventures
+        </h2>
+
+        <ul>
+
+            ${ventures
+                .map(
+                    v =>
+                    `<li>${v.name}</li>`
+                )
+                .join("")}
+
+        </ul>
+
+        <hr>
+
+        <h2>
+            Achievements
+        </h2>
+
+        <ul>
+
+            ${achievements
+                .map(
+                    a =>
+                    `<li>${a.title}</li>`
+                )
+                .join("")}
+
+        </ul>
+
+    `;
 
 }
 
-/* =========================
-   PREVIEW BUTTON
-========================= */
+async function downloadPDF() {
 
-document
-    .getElementById(
-        "btn-preview"
-    )
-    ?.addEventListener(
-        "click",
-        generateResumePreview
-    );
-
-function generateResumePreview() {
-
-    loadProjectsIntoResume();
-
-    loadVenturesIntoResume();
-
-    loadAchievementsIntoResume();
-
-    enableExportButtons();
-
-    updateGeneratedTime();
-
-    setStatus(
-        "Resume generated successfully.",
-        "success"
-    );
-
-}
-
-/* =========================
-   PROJECTS
-========================= */
-
-function loadProjectsIntoResume() {
+    const html =
+        await buildResumeHTML();
 
     const container =
         document.getElementById(
-            "rd-projects-list"
+            "resume-template"
         );
-
-    if (!container) return;
 
     container.innerHTML =
-        resumeProjects
-            .slice(0, 10)
-            .map(project => `
+        html;
 
-                <div class="rd-item">
+    container.style.display =
+        "block";
 
-                    <div class="rd-item-top">
+    await html2pdf()
+        .set({
 
-                        <strong class="rd-item-name">
-                            ${project.title}
-                        </strong>
+            filename:
+                "Vansh-Garg-Resume.pdf",
 
-                    </div>
+            margin: 0.5,
 
-                    <p class="rd-item-desc">
-                        ${project.description || ""}
-                    </p>
+            html2canvas: {
+                scale: 2
+            }
 
-                </div>
+        })
+        .from(container)
+        .save();
 
-            `)
-            .join("");
-
-}
-
-/* =========================
-   VENTURES
-========================= */
-
-function loadVenturesIntoResume() {
-
-    const container =
-        document.getElementById(
-            "rd-ventures-list"
-        );
-
-    if (!container) return;
-
-    container.innerHTML =
-        resumeVentures
-            .map(venture => `
-
-                <div class="rd-item">
-
-                    <div class="rd-item-top">
-
-                        <strong class="rd-item-name">
-                            ${venture.name}
-                        </strong>
-
-                    </div>
-
-                    <p class="rd-item-desc">
-                        ${venture.description || ""}
-                    </p>
-
-                </div>
-
-            `)
-            .join("");
+    container.style.display =
+        "none";
 
 }
 
-/* =========================
-   ACHIEVEMENTS
-========================= */
+async function downloadDOCX() {
 
-function loadAchievementsIntoResume() {
+    const {
 
-    const container =
-        document.getElementById(
-            "rd-achievements-list"
+        projects,
+        ventures,
+        achievements
+
+    } =
+    await fetchResumeData();
+
+    const doc =
+        new docx.Document({
+
+            sections: [
+
+                {
+
+                    children: [
+
+                        new docx.Paragraph({
+
+                            text:
+                                "Vansh Garg",
+
+                            heading:
+                                docx.HeadingLevel.TITLE
+
+                        }),
+
+                        new docx.Paragraph(
+                            "Diploma Computer Science Engineering Student"
+                        ),
+
+                        new docx.Paragraph(
+                            "ICSE Class 10 - 94%"
+                        ),
+
+                        new docx.Paragraph(
+                            "St. Joseph's College Prayagraj"
+                        ),
+
+                        new docx.Paragraph(""),
+
+                        new docx.Paragraph({
+                            text:
+                                "Projects",
+                            heading:
+                                docx.HeadingLevel.HEADING_1
+                        }),
+
+                        ...projects.map(
+                            project =>
+                                new docx.Paragraph(
+                                    project.title
+                                )
+                        ),
+
+                        new docx.Paragraph({
+                            text:
+                                "Ventures",
+                            heading:
+                                docx.HeadingLevel.HEADING_1
+                        }),
+
+                        ...ventures.map(
+                            venture =>
+                                new docx.Paragraph(
+                                    venture.name
+                                )
+                        ),
+
+                        new docx.Paragraph({
+                            text:
+                                "Achievements",
+                            heading:
+                                docx.HeadingLevel.HEADING_1
+                        }),
+
+                        ...achievements.map(
+                            achievement =>
+                                new docx.Paragraph(
+                                    achievement.title
+                                )
+                        )
+
+                    ]
+
+                }
+
+            ]
+
+        });
+
+    const blob =
+        await docx.Packer
+            .toBlob(doc);
+
+    const link =
+        document.createElement(
+            "a"
         );
 
-    if (!container) return;
-
-    container.innerHTML =
-        resumeAchievements
-            .map(item => `
-
-                <div class="rd-item">
-
-                    <div class="rd-item-top">
-
-                        <strong class="rd-item-name">
-                            ${item.title}
-                        </strong>
-
-                    </div>
-
-                    <p class="rd-item-desc">
-                        ${item.description || ""}
-                    </p>
-
-                </div>
-
-            `)
-            .join("");
-
-}
-
-/* =========================
-   STATUS
-========================= */
-
-function setStatus(
-    message,
-    state
-) {
-
-    const text =
-        document.getElementById(
-            "resume-status-text"
+    link.href =
+        URL.createObjectURL(
+            blob
         );
 
-    if (text)
-        text.innerHTML =
-            message;
+    link.download =
+        "Vansh-Garg-Resume.docx";
 
-}
-
-/* =========================
-   EXPORT BUTTONS
-========================= */
-
-function enableExportButtons() {
-
-    document
-        .getElementById(
-            "btn-download-pdf"
-        )
-        ?.removeAttribute(
-            "disabled"
-        );
-
-    document
-        .getElementById(
-            "btn-download-docx"
-        )
-        ?.removeAttribute(
-            "disabled"
-        );
-
-    document
-        .getElementById(
-            "btn-export-pdf-inline"
-        )
-        ?.removeAttribute(
-            "disabled"
-        );
-
-    document
-        .getElementById(
-            "btn-export-docx-inline"
-        )
-        ?.removeAttribute(
-            "disabled"
-        );
-
-}
-
-/* =========================
-   TIMESTAMP
-========================= */
-
-function updateGeneratedTime() {
-
-    const wrapper =
-        document.getElementById(
-            "resume-last-generated"
-        );
-
-    const time =
-        document.getElementById(
-            "resume-gen-time"
-        );
-
-    if (!wrapper || !time)
-        return;
-
-    const now =
-        new Date();
-
-    time.textContent =
-        now.toLocaleString();
-
-    time.dateTime =
-        now.toISOString();
-
-    wrapper.hidden =
-        false;
+    link.click();
 
 }

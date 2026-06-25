@@ -1,815 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Resume | Vansh Garg</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <title>
+        Resume | Vansh Garg
+    </title>
 
-    <meta name="description" content="Dynamic resume of Vansh Garg — Diploma CSE student, developer, builder, and AI enthusiast.">
-
-    <link rel="stylesheet" href="css/style.css">
-
+    <link
+        rel="stylesheet"
+        href="css/style.css">
 
 </head>
-<body class="no-card-overflow">
 
-<!-- ================================================================
-     NAVBAR
-================================================================ -->
-<nav class="navbar">
-    <div class="container">
+<body>
 
-        <a href="index.html" class="logo">Vansh Garg</a>
+    <!-- NAVBAR -->
 
-        <ul class="nav-links">
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="ventures.html">Ventures</a></li>
-            <li><a href="achievements.html">Achievements</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="resume.html" class="active">Resume</a></li>
-        </ul>
+    <nav class="navbar">
 
-        <button id="theme-toggle">Theme</button>
+        <div class="container">
 
-    </div>
-</nav>
+            <a
+                href="index.html"
+                class="logo">
 
-<!-- ================================================================
-     SECTION 1 — HERO
-================================================================ -->
-<header id="resume-hero" class="resume-hero">
-    <div class="container">
+                Vansh Garg
 
-        <div class="resume-hero-eyebrow">
-            <span class="resume-hero-tag">
-                <span class="tag-dot"></span>
-                Auto-generated from Supabase
-            </span>
-        </div>
+            </a>
 
-        <h1 class="resume-hero-title">Resume Builder</h1>
+            <ul class="nav-links">
 
-        <p class="resume-hero-sub">
-            Your live portfolio data — projects, ventures, and achievements —
-            compiled into a professional, export-ready resume.
-        </p>
+                <li>
+                    <a href="projects.html">
+                        Projects
+                    </a>
+                </li>
 
-        <!-- STATUS BANNER -->
-        <div id="resume-status-banner" class="resume-status-banner">
-            <span id="resume-status-icon" class="resume-status-dot resume-status-dot--idle"></span>
-            <span id="resume-status-text" class="resume-status-msg">
-                Select a template and click <strong>Preview Resume</strong> to begin.
-            </span>
-        </div>
+                <li>
+                    <a href="ventures.html">
+                        Ventures
+                    </a>
+                </li>
 
-        <!-- ACTION BUTTONS -->
-        <div id="resume-hero-actions" class="resume-hero-actions">
+                <li>
+                    <a href="achievements.html">
+                        Achievements
+                    </a>
+                </li>
 
-            <button
-                id="btn-preview"
-                class="btn btn-primary resume-btn-lg"
-                data-action="preview"
-                disabled>
-                ◎ &nbsp;Preview Resume
-            </button>
+                <li>
+                    <a href="about.html">
+                        About
+                    </a>
+                </li>
 
-            <button
-                id="btn-download-pdf"
-                class="btn resume-btn-lg resume-btn-export"
-                data-action="pdf"
-                disabled>
-                ↓ &nbsp;Download PDF
-            </button>
+                <li>
+                    <a href="contact.html">
+                        Contact
+                    </a>
+                </li>
 
-            <button
-                id="btn-download-docx"
-                class="btn resume-btn-lg resume-btn-export"
-                data-action="docx"
-                disabled>
-                ↓ &nbsp;Download DOCX
+            </ul>
+
+            <button id="theme-toggle">
+                Theme
             </button>
 
         </div>
 
-        <!-- LAST GENERATED INFO -->
-        <p id="resume-last-generated" class="resume-last-generated" hidden>
-            Last generated: <time id="resume-gen-time" datetime=""></time>
-            &nbsp;·&nbsp; Template: <span id="resume-active-template-label">—</span>
-        </p>
+    </nav>
 
-    </div>
-</header>
+    <!-- HERO -->
 
-<!-- ================================================================
-     SECTION 2 — RESUME STATISTICS
-================================================================ -->
-<section id="resume-stats-section" class="resume-section">
-    <div class="container">
+    <section class="hero">
 
-        <h2 class="section-title">Portfolio at a Glance</h2>
+        <div class="container">
 
-        <div id="resume-stats-grid" class="resume-stats-grid">
+            <h1>
+                Resume Generator
+            </h1>
 
-            <div class="resume-stat-card" id="stat-projects">
-                <div class="resume-stat-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <rect x="2" y="3" width="20" height="14" rx="2"/>
-                        <path d="M8 21h8M12 17v4"/>
-                    </svg>
-                </div>
-                <div class="resume-stat-value" id="stat-projects-count">—</div>
-                <div class="resume-stat-label">Projects Built</div>
-                <div class="resume-stat-sub">Software, games, web apps &amp; tools</div>
-            </div>
+            <p>
 
-            <div class="resume-stat-card" id="stat-ventures">
-                <div class="resume-stat-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                        <path d="M2 17l10 5 10-5"/>
-                        <path d="M2 12l10 5 10-5"/>
-                    </svg>
-                </div>
-                <div class="resume-stat-value" id="stat-ventures-count">—</div>
-                <div class="resume-stat-label">Ventures</div>
-                <div class="resume-stat-sub">Startups, products &amp; ideas launched</div>
-            </div>
+                Generate and download an up-to-date resume
+                directly from your portfolio database.
 
-            <div class="resume-stat-card" id="stat-achievements">
-                <div class="resume-stat-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="12" cy="8" r="6"/>
-                        <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
-                    </svg>
-                </div>
-                <div class="resume-stat-value" id="stat-achievements-count">—</div>
-                <div class="resume-stat-label">Achievements</div>
-                <div class="resume-stat-sub">Certifications, awards &amp; milestones</div>
-            </div>
+            </p>
 
-            <div class="resume-stat-card" id="stat-years">
-                <div class="resume-stat-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M12 2v10l4 2"/>
-                        <circle cx="12" cy="12" r="10"/>
-                    </svg>
-                </div>
-                <div class="resume-stat-value" id="stat-years-count">3+</div>
-                <div class="resume-stat-label">Years Learning</div>
-                <div class="resume-stat-sub">Active in tech since 2022</div>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
-<!-- ================================================================
-     SECTION 3 — RESUME TEMPLATES
-================================================================ -->
-<section id="resume-templates-section" class="resume-section resume-section--alt">
-    <div class="container">
-
-        <h2 class="section-title">Resume Templates</h2>
-
-        <p class="page-description">
-            Each template formats the same Supabase data differently.
-            Choose the one that fits where you're applying.
-        </p>
-
-        <div id="resume-templates-grid" class="resume-templates-grid">
-
-            <!-- TEMPLATE 1: PROFESSIONAL -->
             <div
-                class="resume-template-card resume-template-card--selected"
-                id="template-professional"
-                data-template="professional"
-                role="radio"
-                aria-checked="true"
-                tabindex="0">
-
-                <div class="resume-template-preview resume-template-preview--professional" aria-hidden="true">
-                    <div class="rtp-header-block">
-                        <div class="rtp-name-line"></div>
-                        <div class="rtp-title-line"></div>
-                    </div>
-                    <div class="rtp-divider"></div>
-                    <div class="rtp-section-label"></div>
-                    <div class="rtp-line rtp-line--full"></div>
-                    <div class="rtp-line rtp-line--med"></div>
-                    <div class="rtp-section-label"></div>
-                    <div class="rtp-line rtp-line--full"></div>
-                    <div class="rtp-line rtp-line--sm"></div>
-                    <div class="rtp-line rtp-line--med"></div>
-                </div>
-
-                <div class="resume-template-info">
-                    <div class="resume-template-badge">Recommended</div>
-                    <h3 class="resume-template-name">Professional</h3>
-                    <p class="resume-template-desc">
-                        Clean two-column layout. Ideal for corporate roles,
-                        internship applications, and formal submissions.
-                    </p>
-                    <ul class="resume-template-traits">
-                        <li>ATS-friendly layout</li>
-                        <li>Traditional header</li>
-                        <li>Balanced white space</li>
-                    </ul>
-                </div>
-
-                <div class="resume-template-select-indicator" aria-hidden="true">✓ Selected</div>
-
-            </div>
-
-            <!-- TEMPLATE 2: MODERN DEVELOPER -->
-            <div
-                class="resume-template-card"
-                id="template-modern-developer"
-                data-template="modern-developer"
-                role="radio"
-                aria-checked="false"
-                tabindex="0">
-
-                <div class="resume-template-preview resume-template-preview--modern" aria-hidden="true">
-                    <div class="rtp-sidebar">
-                        <div class="rtp-avatar-circle"></div>
-                        <div class="rtp-side-line"></div>
-                        <div class="rtp-side-line rtp-side-line--sm"></div>
-                        <div class="rtp-side-label"></div>
-                        <div class="rtp-chip"></div>
-                        <div class="rtp-chip rtp-chip--sm"></div>
-                    </div>
-                    <div class="rtp-main">
-                        <div class="rtp-line rtp-line--full"></div>
-                        <div class="rtp-line rtp-line--med"></div>
-                        <div class="rtp-line rtp-line--full"></div>
-                        <div class="rtp-line rtp-line--sm"></div>
-                    </div>
-                </div>
-
-                <div class="resume-template-info">
-                    <h3 class="resume-template-name">Modern Developer</h3>
-                    <p class="resume-template-desc">
-                        Side-panel layout with a skills chip section.
-                        Built for software engineering and dev roles.
-                    </p>
-                    <ul class="resume-template-traits">
-                        <li>Skills sidebar</li>
-                        <li>GitHub-ready links</li>
-                        <li>Project-first order</li>
-                    </ul>
-                </div>
-
-                <div class="resume-template-select-indicator" aria-hidden="true">✓ Selected</div>
-
-            </div>
-
-            <!-- TEMPLATE 3: AI ENGINEER -->
-            <div
-                class="resume-template-card"
-                id="template-ai-engineer"
-                data-template="ai-engineer"
-                role="radio"
-                aria-checked="false"
-                tabindex="0">
-
-                <div class="resume-template-preview resume-template-preview--ai" aria-hidden="true">
-                    <div class="rtp-ai-header">
-                        <div class="rtp-ai-accent-bar"></div>
-                        <div class="rtp-name-line rtp-name-line--lg"></div>
-                        <div class="rtp-ai-tags">
-                            <div class="rtp-ai-tag"></div>
-                            <div class="rtp-ai-tag rtp-ai-tag--sm"></div>
-                        </div>
-                    </div>
-                    <div class="rtp-line rtp-line--full"></div>
-                    <div class="rtp-line rtp-line--med"></div>
-                    <div class="rtp-ai-cards">
-                        <div class="rtp-ai-card"></div>
-                        <div class="rtp-ai-card"></div>
-                    </div>
-                </div>
-
-                <div class="resume-template-info">
-                    <h3 class="resume-template-name">AI Engineer</h3>
-                    <p class="resume-template-desc">
-                        Bold accent-driven layout highlighting AI projects,
-                        prompt engineering, and technical depth.
-                    </p>
-                    <ul class="resume-template-traits">
-                        <li>AI/ML focus order</li>
-                        <li>Prompt eng. section</li>
-                        <li>Technical profile block</li>
-                    </ul>
-                </div>
-
-                <div class="resume-template-select-indicator" aria-hidden="true">✓ Selected</div>
-
-            </div>
-
-            <!-- TEMPLATE 4: MINIMALIST -->
-            <div
-                class="resume-template-card"
-                id="template-minimalist"
-                data-template="minimalist"
-                role="radio"
-                aria-checked="false"
-                tabindex="0">
-
-                <div class="resume-template-preview resume-template-preview--minimal" aria-hidden="true">
-                    <div class="rtp-min-name"></div>
-                    <div class="rtp-min-rule"></div>
-                    <div class="rtp-line rtp-line--med"></div>
-                    <div class="rtp-line rtp-line--sm"></div>
-                    <div class="rtp-min-rule rtp-min-rule--sm"></div>
-                    <div class="rtp-line rtp-line--full"></div>
-                    <div class="rtp-line rtp-line--med"></div>
-                </div>
-
-                <div class="resume-template-info">
-                    <h3 class="resume-template-name">Minimalist</h3>
-                    <p class="resume-template-desc">
-                        Single-column, typography-first design.
-                        Zero distraction. Maximum readability.
-                    </p>
-                    <ul class="resume-template-traits">
-                        <li>One-column flow</li>
-                        <li>High contrast type</li>
-                        <li>Compact on paper</li>
-                    </ul>
-                </div>
-
-                <div class="resume-template-select-indicator" aria-hidden="true">✓ Selected</div>
-
-            </div>
-
-        </div>
-
-        <!-- SELECTED TEMPLATE FEEDBACK -->
-        <p id="resume-template-feedback" class="resume-template-feedback">
-            Template selected: <strong id="resume-template-feedback-name">Professional</strong>
-        </p>
-
-    </div>
-</section>
-
-<!-- ================================================================
-     SECTION 4 — RESUME CONTENT PREVIEW
-================================================================ -->
-<section id="resume-preview-section" class="resume-section">
-    <div class="container">
-
-        <h2 class="section-title">Resume Preview</h2>
-
-        <p class="page-description">
-            This is how your resume will look when exported.
-            Data shown here is placeholder — clicking Preview Resume above
-            will pull live data from Supabase.
-        </p>
-
-        <!-- TOOLBAR -->
-        <div id="resume-preview-toolbar" class="resume-preview-toolbar">
-
-            <div class="resume-preview-toolbar-left">
-                <span id="resume-preview-template-label" class="resume-preview-tag">Professional</span>
-                <span class="resume-preview-mode-label">Preview mode</span>
-            </div>
-
-            <div class="resume-preview-toolbar-right">
+                style="
+                display:flex;
+                gap:1rem;
+                justify-content:center;
+                flex-wrap:wrap;">
 
                 <button
-                    id="btn-zoom-out"
-                    class="resume-toolbar-btn"
-                    data-zoom="out"
-                    aria-label="Zoom out">
-                    −
-                </button>
+                    id="download-pdf"
+                    class="btn btn-primary">
 
-                <span id="resume-zoom-level" class="resume-zoom-label">100%</span>
+                    Download PDF
 
-                <button
-                    id="btn-zoom-in"
-                    class="resume-toolbar-btn"
-                    data-zoom="in"
-                    aria-label="Zoom in">
-                    +
                 </button>
 
                 <button
-                    id="btn-print-preview"
-                    class="resume-toolbar-btn resume-toolbar-btn--labeled"
-                    aria-label="Print preview">
-                    Print
+                    id="download-docx"
+                    class="btn">
+
+                    Download DOCX
+
                 </button>
 
             </div>
 
         </div>
 
-        <!-- PREVIEW FRAME WRAPPER -->
-        <div id="resume-preview-frame-wrap" class="resume-preview-frame-wrap">
+    </section>
 
-            <!-- PLACEHOLDER / LOADING STATE -->
-            <div id="resume-preview-placeholder" class="resume-preview-placeholder">
-                <div class="resume-preview-placeholder-icon" aria-hidden="true">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                        <polyline points="10 9 9 9 8 9"/>
-                    </svg>
-                </div>
-                <p class="resume-preview-placeholder-msg">
-                    Select a template above, then click
-                    <strong>Preview Resume</strong> to generate.
-                </p>
-            </div>
+    <!-- Hidden Resume Container -->
 
-            <!-- LOADING SKELETON (hidden by default, shown during fetch) -->
-            <div id="resume-preview-loading" class="resume-preview-loading" hidden aria-live="polite" aria-label="Loading resume...">
-                <div class="resume-skeleton resume-skeleton--header"></div>
-                <div class="resume-skeleton resume-skeleton--line resume-skeleton--full"></div>
-                <div class="resume-skeleton resume-skeleton--line resume-skeleton--med"></div>
-                <div class="resume-skeleton resume-skeleton--line resume-skeleton--full"></div>
-                <div class="resume-skeleton resume-skeleton--line resume-skeleton--sm"></div>
-                <div class="resume-skeleton resume-skeleton--line resume-skeleton--med"></div>
-            </div>
-
-            <!-- ACTUAL RESUME DOCUMENT — filled by resume.js -->
-            <div id="resume-document" class="resume-document" hidden>
-
-                <!-- ── HEAD ── -->
-                <div id="rd-head" class="rd-head">
-
-                    <div class="rd-name-block">
-                        <h1 id="rd-name" class="rd-name">Vansh Garg</h1>
-                        <p id="rd-title" class="rd-title">Diploma CSE Student · Developer · Builder</p>
-                    </div>
-
-                    <div id="rd-contact-row" class="rd-contact-row">
-                        <a id="rd-email" href="mailto:vanshgargvlcontact@gmail.com" class="rd-contact-item">
-                            vanshgargvlcontact@gmail.com
-                        </a>
-                        <span class="rd-contact-sep">·</span>
-                        <a id="rd-phone" href="tel:+918604645520" class="rd-contact-item">
-                            +91 86046 45520
-                        </a>
-                        <span class="rd-contact-sep">·</span>
-                        <a id="rd-github" href="https://github.com/vanshsafe-site" target="_blank" rel="noopener" class="rd-contact-item">
-                            github.com/vanshsafe-site
-                        </a>
-                        <span class="rd-contact-sep">·</span>
-                        <a id="rd-linkedin" href="https://www.linkedin.com/in/vansh-garg-vl777/" target="_blank" rel="noopener" class="rd-contact-item">
-                            linkedin.com/in/vansh-garg-vl777
-                        </a>
-                    </div>
-
-                </div>
-
-                <hr class="rd-rule">
-
-                <!-- ── SUMMARY ── -->
-                <section id="rd-summary-section" class="rd-section">
-                    <h2 class="rd-section-title">Summary</h2>
-                    <p id="rd-summary" class="rd-summary">
-                        Diploma Computer Science &amp; Engineering student passionate about software development,
-                        AI, prompt engineering, and building real-world digital products.
-                        Graduated Class 10 ICSE with 94% from St. Joseph's College, Prayagraj.
-                        Specialises in creating structured AI prompts that improve output quality,
-                        and in building web applications, games, and developer tools from scratch.
-                    </p>
-                </section>
-
-                <!-- ── EDUCATION ── -->
-                <section id="rd-education-section" class="rd-section">
-                    <h2 class="rd-section-title">Education</h2>
-
-                    <div id="rd-education-list" class="rd-education-list">
-
-                        <div class="rd-edu-item">
-                            <div class="rd-edu-top">
-                                <strong class="rd-edu-institution">
-                                    Government Polytechnic (Diploma — CSE)
-                                </strong>
-                                <span class="rd-edu-date">2024 – Present</span>
-                            </div>
-                            <p class="rd-edu-detail">Computer Science &amp; Engineering · Prayagraj, UP</p>
-                        </div>
-
-                        <div class="rd-edu-item">
-                            <div class="rd-edu-top">
-                                <strong class="rd-edu-institution">
-                                    St. Joseph's College, Prayagraj
-                                </strong>
-                                <span class="rd-edu-date">Class 10 ICSE · 2024</span>
-                            </div>
-                            <p class="rd-edu-detail">Score: 94% · ICSE Board</p>
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- ── SKILLS ── -->
-                <section id="rd-skills-section" class="rd-section">
-                    <h2 class="rd-section-title">Skills</h2>
-                    <div id="rd-skills-grid" class="rd-skills-grid">
-
-                        <div class="rd-skill-group">
-                            <h4 class="rd-skill-group-label">Languages</h4>
-                            <div class="rd-skill-chips" id="rd-chips-languages">
-                                <span class="rd-chip">JavaScript</span>
-                                <span class="rd-chip">HTML</span>
-                                <span class="rd-chip">CSS</span>
-                                <span class="rd-chip">Python</span>
-                                <span class="rd-chip">SQL</span>
-                            </div>
-                        </div>
-
-                        <div class="rd-skill-group">
-                            <h4 class="rd-skill-group-label">Tools &amp; Platforms</h4>
-                            <div class="rd-skill-chips" id="rd-chips-tools">
-                                <span class="rd-chip">Supabase</span>
-                                <span class="rd-chip">Git &amp; GitHub</span>
-                                <span class="rd-chip">VS Code</span>
-                                <span class="rd-chip">Netlify</span>
-                            </div>
-                        </div>
-
-                        <div class="rd-skill-group">
-                            <h4 class="rd-skill-group-label">Specialisations</h4>
-                            <div class="rd-skill-chips" id="rd-chips-specialisations">
-                                <span class="rd-chip">Prompt Engineering</span>
-                                <span class="rd-chip">AI Integration</span>
-                                <span class="rd-chip">Full Stack</span>
-                                <span class="rd-chip">Cybersecurity</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- ── PROJECTS ── -->
-                <section id="rd-projects-section" class="rd-section">
-                    <h2 class="rd-section-title">Projects</h2>
-                    <div id="rd-projects-list" class="rd-item-list">
-
-                        <!-- Populated by resume.js from Supabase; placeholder below -->
-                        <div class="rd-item rd-item--placeholder">
-                            <div class="rd-item-top">
-                                <strong class="rd-item-name">Portfolio Website</strong>
-                                <span class="rd-item-meta">2025 – 2026</span>
-                            </div>
-                            <p class="rd-item-desc">
-                                Full-stack personal portfolio with Supabase backend, admin dashboard,
-                                dynamic content pages, and dark/light theme. Built with vanilla JS.
-                            </p>
-                            <div class="rd-item-tags">
-                                <span class="rd-chip rd-chip--sm">HTML</span>
-                                <span class="rd-chip rd-chip--sm">CSS</span>
-                                <span class="rd-chip rd-chip--sm">JavaScript</span>
-                                <span class="rd-chip rd-chip--sm">Supabase</span>
-                            </div>
-                        </div>
-
-                        <div class="rd-item rd-item--placeholder">
-                            <div class="rd-item-top">
-                                <strong class="rd-item-name">AI Chatbot Tool</strong>
-                                <span class="rd-item-meta">2024</span>
-                            </div>
-                            <p class="rd-item-desc">
-                                Keyword-based chatbot in HTML, CSS, and JavaScript with
-                                structured response mapping and custom prompt templates.
-                            </p>
-                            <div class="rd-item-tags">
-                                <span class="rd-chip rd-chip--sm">JavaScript</span>
-                                <span class="rd-chip rd-chip--sm">HTML</span>
-                                <span class="rd-chip rd-chip--sm">CSS</span>
-                            </div>
-                        </div>
-
-                        <div id="rd-projects-note" class="rd-placeholder-note">
-                            ↻ Click <strong>Preview Resume</strong> to load your live projects from Supabase.
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- ── VENTURES ── -->
-                <section id="rd-ventures-section" class="rd-section">
-                    <h2 class="rd-section-title">Ventures</h2>
-                    <div id="rd-ventures-list" class="rd-item-list">
-
-                        <div class="rd-item rd-item--placeholder">
-                            <div class="rd-item-top">
-                                <strong class="rd-item-name">EduAI Platform (Concept)</strong>
-                                <span class="rd-item-meta">2025</span>
-                            </div>
-                            <p class="rd-item-desc">
-                                Educational platform concept leveraging Generative AI to
-                                teach coding through structured prompt-based exercises.
-                            </p>
-                        </div>
-
-                        <div id="rd-ventures-note" class="rd-placeholder-note">
-                            ↻ Live venture data loads after Preview Resume is clicked.
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- ── ACHIEVEMENTS ── -->
-                <section id="rd-achievements-section" class="rd-section">
-                    <h2 class="rd-section-title">Achievements &amp; Certifications</h2>
-                    <div id="rd-achievements-list" class="rd-item-list">
-
-                        <div class="rd-item rd-item--placeholder">
-                            <div class="rd-item-top">
-                                <strong class="rd-item-name">Class 10 ICSE — 94%</strong>
-                                <span class="rd-item-meta">2024</span>
-                            </div>
-                            <p class="rd-item-desc">
-                                Completed secondary education at St. Joseph's College, Prayagraj
-                                under the ICSE board with distinction.
-                            </p>
-                        </div>
-
-                        <div id="rd-achievements-note" class="rd-placeholder-note">
-                            ↻ Live achievement data loads after Preview Resume is clicked.
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- ── INTERESTS ── -->
-                <section id="rd-interests-section" class="rd-section">
-                    <h2 class="rd-section-title">Areas of Interest</h2>
-                    <div id="rd-interests-chips" class="rd-skill-chips">
-                        <span class="rd-chip">Artificial Intelligence</span>
-                        <span class="rd-chip">Prompt Engineering</span>
-                        <span class="rd-chip">Cybersecurity</span>
-                        <span class="rd-chip">Web Development</span>
-                        <span class="rd-chip">Full Stack Development</span>
-                        <span class="rd-chip">Software Architecture</span>
-                        <span class="rd-chip">Startup Building</span>
-                        <span class="rd-chip">Game Development</span>
-                    </div>
-                </section>
-
-            </div>
-            <!-- /resume-document -->
-
-        </div>
-        <!-- /resume-preview-frame-wrap -->
-
-        <!-- EXPORT PROMPT (shown after preview is loaded) -->
-        <div id="resume-export-prompt" class="resume-export-prompt" hidden>
-            <p>Happy with how it looks?</p>
-            <button id="btn-export-pdf-inline" class="btn btn-primary" data-action="pdf" disabled>↓ Export as PDF</button>
-            <button id="btn-export-docx-inline" class="btn" data-action="docx" disabled>↓ Export as DOCX</button>
-        </div>
+    <div
+        id="resume-template"
+        style="
+        display:none;
+        background:white;
+        color:black;
+        padding:40px;
+        max-width:900px;
+        margin:auto;">
 
     </div>
-</section>
 
-<!-- ================================================================
-     SECTION 5 — FUTURE FEATURES
-================================================================ -->
-<section id="resume-future-section" class="resume-section resume-section--alt">
-    <div class="container">
+    <!-- LIBRARIES -->
 
-        <h2 class="section-title">Coming Soon</h2>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        <p class="page-description">
-            Features in the pipeline for the Resume Builder.
-            Each connects directly to your Supabase data.
-        </p>
+    <script src="js/supabase.js"></script>
 
-        <div id="resume-future-grid" class="resume-future-grid">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-            <div class="resume-future-card" id="future-ai-resume">
-                <div class="resume-future-icon" aria-hidden="true">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
-                    </svg>
-                </div>
-                <h3 class="resume-future-title">AI-Generated Summary</h3>
-                <p class="resume-future-desc">
-                    Claude-powered professional summary written from your
-                    real project data and expertise — not a generic template.
-                </p>
-                <span class="resume-future-badge">Planned</span>
-            </div>
+    <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
 
-            <div class="resume-future-card" id="future-job-tailoring">
-                <div class="resume-future-icon" aria-hidden="true">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                    </svg>
-                </div>
-                <h3 class="resume-future-title">Job-Specific Tailoring</h3>
-                <p class="resume-future-desc">
-                    Paste a job description — AI reorders your projects and
-                    adjusts skill emphasis to match the role's requirements.
-                </p>
-                <span class="resume-future-badge">Planned</span>
-            </div>
+    <!-- APP -->
 
-            <div class="resume-future-card" id="future-auto-sync-projects">
-                <div class="resume-future-icon" aria-hidden="true">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="23 4 23 10 17 10"/>
-                        <polyline points="1 20 1 14 7 14"/>
-                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-                    </svg>
-                </div>
-                <h3 class="resume-future-title">Automatic Project Sync</h3>
-                <p class="resume-future-desc">
-                    Resume rebuilds automatically whenever you publish
-                    a new project or update an existing one in the admin panel.
-                </p>
-                <span class="resume-future-badge">Planned</span>
-            </div>
+    <script src="js/app.js"></script>
 
-            <div class="resume-future-card" id="future-auto-sync-achievements">
-                <div class="resume-future-icon" aria-hidden="true">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                        <polyline points="22 4 12 14.01 9 11.01"/>
-                    </svg>
-                </div>
-                <h3 class="resume-future-title">Achievement Auto-Sync</h3>
-                <p class="resume-future-desc">
-                    New certifications and achievements appear on the resume
-                    the moment they're added to Supabase — zero manual effort.
-                </p>
-                <span class="resume-future-badge">Planned</span>
-            </div>
-
-            <div class="resume-future-card" id="future-custom-sections">
-                <div class="resume-future-icon" aria-hidden="true">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"/>
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                    </svg>
-                </div>
-                <h3 class="resume-future-title">Custom Sections</h3>
-                <p class="resume-future-desc">
-                    Add custom blocks — speaking engagements, research,
-                    open-source contributions — stored in Supabase and
-                    reflected in every export.
-                </p>
-                <span class="resume-future-badge">Planned</span>
-            </div>
-
-            <div class="resume-future-card" id="future-share-link">
-                <div class="resume-future-icon" aria-hidden="true">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="18" cy="5" r="3"/>
-                        <circle cx="6" cy="12" r="3"/>
-                        <circle cx="18" cy="19" r="3"/>
-                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-                    </svg>
-                </div>
-                <h3 class="resume-future-title">Live Share Link</h3>
-                <p class="resume-future-desc">
-                    Generate a permanent URL to a live web version of your
-                    resume that stays up to date as your portfolio grows.
-                </p>
-                <span class="resume-future-badge">Planned</span>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
-<!-- ================================================================
-     FOOTER
-================================================================ -->
-<footer>
-    <div class="container">
-        <p>© 2026 Vansh Garg. All Rights Reserved.</p>
-    </div>
-</footer>
-
-<!-- ================================================================
-     SCRIPTS
-================================================================ -->
-<script src="js/beautify.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/app.js"></script>
-<script src="js/resume.js"></script>
+    <script src="js/resume.js"></script>
 
 </body>
+
 </html>
