@@ -114,10 +114,13 @@
     ================================================================= */
 
     function initScrollReveal() {
-        const currentPage = location.pathname.split("/").pop();
-        const excludedPages = ["about.html", "contact.html"];
-
-        if (excludedPages.includes(currentPage)) return;
+        const currentPath = window.location.pathname || window.location.href;
+        if (
+            currentPath.includes("about.html") ||
+            currentPath.includes("contact.html")
+        ) {
+            return;
+        }
 
         const targets = document.querySelectorAll(
             ".card, .section-title, .page-description, .contact-box, .project-page"

@@ -353,11 +353,22 @@ function renderFrontendVentures(ventures) {
                 ${venture.description}
             </p>
 
-            <a
-                href="venture.html?slug=${venture.slug}"
-                class="btn btn-primary">
-                View Venture
-            </a>
+            <div class="card-actions">
+                <a
+                    href="venture.html?slug=${venture.slug}"
+                    class="btn btn-primary">
+                    View Venture
+                </a>
+                ${venture.live_url ? `
+                    <a
+                        href="${venture.live_url}"
+                        target="_blank"
+                        rel="noopener"
+                        class="btn btn-secondary">
+                        View Demo
+                    </a>
+                ` : ""}
+            </div>
         </div>
     `).join("");
 }
@@ -587,18 +598,6 @@ async function loadVenture() {
             <p>
                 ${data.description}
             </p>
-
-            ${data.live_url ? `
-            <div class="card-actions">
-                <a
-                    href="${data.live_url}"
-                    class="btn btn-primary"
-                    target="_blank"
-                    rel="noreferrer noopener">
-                    Visit Live Site
-                </a>
-            </div>
-            ` : ""}
 
         </div>
 
