@@ -661,7 +661,8 @@ header p {
     border: 1px solid var(--border);
     border-radius: var(--radius);
 
-    padding: 2.85rem 1.6rem 1.6rem;
+    padding: 2rem 1.4rem 1.4rem;
+    min-height: 18rem;
 
     transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
     transition: transform .35s ease, border-color .3s ease, box-shadow .3s ease;
@@ -675,9 +676,9 @@ header p {
 
     background-color: var(--surface-2);
     background-image:
-        radial-gradient(circle 4px at 1.05rem 0.95rem, #FF5F57 100%, transparent 101%),
-        radial-gradient(circle 4px at 1.85rem 0.95rem, #FEBC2E 100%, transparent 101%),
-        radial-gradient(circle 4px at 2.65rem 0.95rem, #28C840 100%, transparent 101%);
+        radial-gradient(circle 4px at 1.05rem 0.95rem, #FF8A3D 100%, transparent 101%),
+        radial-gradient(circle 4px at 1.85rem 0.95rem, #4DAEFF 100%, transparent 101%),
+        radial-gradient(circle 4px at 2.65rem 0.95rem, #C967FF 100%, transparent 101%);
 
     border-bottom: 1px solid var(--border);
 }
@@ -686,7 +687,10 @@ header p {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent-rgb) / 0.14), transparent 60%);
+    background:
+        radial-gradient(220px circle at var(--mx, 45%) var(--my, 30%), rgb(var(--accent-rgb) / 0.18), transparent 40%),
+        radial-gradient(160px circle at 80% 20%, rgba(47, 111, 237, 0.12), transparent 50%),
+        radial-gradient(140px circle at 25% 85%, rgba(255, 146, 66, 0.12), transparent 50%);
     opacity: 0;
     transition: opacity .3s ease;
     pointer-events: none;
@@ -694,8 +698,11 @@ header p {
 
 .card:hover {
     --lift: -6px;
-    border-color: rgb(var(--primary-rgb) / 0.4);
-    box-shadow: var(--shadow-md);
+    border-color: rgba(255, 146, 66, 0.55);
+    box-shadow:
+        0 18px 50px -18px rgba(47, 111, 237, 0.25),
+        0 0 20px rgba(255, 146, 66, 0.16),
+        0 0 30px rgba(77, 174, 255, 0.12);
 }
 
 .card:hover::after {
@@ -707,8 +714,30 @@ header p {
     margin-top: 0;
 }
 
+.card > p,
 .card h3 + p {
-    margin-top: 0;
+    position: relative;
+    margin-top: 0.85rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    line-height: 1.65;
+    max-height: 6.5rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+.card > p::after,
+.card h3 + p::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2.1rem;
+    background: linear-gradient(180deg, transparent 0%, var(--surface) 100%);
+    pointer-events: none;
 }
 
 /* =========================================================
