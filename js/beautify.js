@@ -115,16 +115,18 @@
 
     function initScrollReveal() {
         const currentPath = window.location.pathname || window.location.href;
-        if (
+        const isNoRevealPage =
             currentPath.includes("about.html") ||
-            currentPath.includes("contact.html")
-        ) {
-            return;
-        }
+            currentPath.includes("contact.html");
 
         const targets = document.querySelectorAll(
             ".card, .section-title, .page-description, .contact-box, .project-page"
         );
+
+        if (isNoRevealPage) {
+            targets.forEach((el) => el.classList.add("reveal-visible"));
+            return;
+        }
 
         if (!targets.length) return;
 
