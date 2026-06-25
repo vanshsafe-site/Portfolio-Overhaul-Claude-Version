@@ -775,29 +775,28 @@ async function loadAdminProjects() {
     container.innerHTML =
     data.map(project => `
 
-        <div class="card">
+        <div class="admin-card">
+            <div class="admin-card-body">
+                <h3 class="admin-card-title">
+                    ${project.title}
+                </h3>
 
-            <h3>
-                ${project.title}
-            </h3>
+                <p class="admin-card-desc">
+                    ${project.description}
+                </p>
+            </div>
 
-            <p>
-                ${project.description}
-            </p>
+            <div class="admin-card-actions">
+                <button class="btn btn-secondary"
+                    onclick="editProject(${project.id})">
+                    Edit
+                </button>
 
-            <button
-                onclick="editProject(${project.id})">
-
-                Edit
-
-            </button>
-
-            <button
-                onclick="deleteProject(${project.id})">
-
-                Delete
-
-            </button>
+                <button class="btn btn-danger"
+                    onclick="deleteProject(${project.id})">
+                    Delete
+                </button>
+            </div>
 
         </div>
 
@@ -1047,29 +1046,28 @@ async function loadAdminVentures() {
     container.innerHTML =
         data.map(venture => `
 
-            <div class="card">
+            <div class="admin-card">
+                <div class="admin-card-body">
+                    <h3 class="admin-card-title">
+                        ${venture.name}
+                    </h3>
 
-                <h3>
-                    ${venture.name}
-                </h3>
+                    <p class="admin-card-desc">
+                        ${venture.description}
+                    </p>
+                </div>
 
-                <p>
-                    ${venture.description}
-                </p>
+                <div class="admin-card-actions">
+                    <button class="btn btn-secondary"
+                        onclick="editVenture(${venture.id})">
+                        Edit
+                    </button>
 
-                <button
-                    onclick="editVenture(${venture.id})">
-
-                    Edit
-
-                </button>
-
-                <button
-                    onclick="deleteVenture(${venture.id})">
-
-                    Delete
-
-                </button>
+                    <button class="btn btn-danger"
+                        onclick="deleteVenture(${venture.id})">
+                        Delete
+                    </button>
+                </div>
 
             </div>
 
@@ -1302,29 +1300,28 @@ async function loadAdminAchievements() {
     container.innerHTML =
         data.map(item => `
 
-            <div class="card">
+            <div class="admin-card">
+                <div class="admin-card-body">
+                    <h3 class="admin-card-title">
+                        ${item.title}
+                    </h3>
 
-                <h3>
-                    ${item.title}
-                </h3>
+                    <p class="admin-card-desc">
+                        ${item.description}
+                    </p>
+                </div>
 
-                <p>
-                    ${item.description}
-                </p>
+                <div class="admin-card-actions">
+                    <button class="btn btn-secondary"
+                        onclick="editAchievement(${item.id})">
+                        Edit
+                    </button>
 
-                <button
-                    onclick="editAchievement(${item.id})">
-
-                    Edit
-
-                </button>
-
-                <button
-                    onclick="deleteAchievement(${item.id})">
-
-                    Delete
-
-                </button>
+                    <button class="btn btn-danger"
+                        onclick="deleteAchievement(${item.id})">
+                        Delete
+                    </button>
+                </div>
 
             </div>
 
