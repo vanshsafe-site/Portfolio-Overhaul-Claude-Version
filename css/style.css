@@ -759,6 +759,20 @@ header p {
     pointer-events: none;
 }
 
+.no-card-overflow .card > p,
+.no-card-overflow .card h3 + p {
+    max-height: none;
+    overflow: visible;
+    display: block;
+    -webkit-box-orient: initial;
+    -webkit-line-clamp: unset;
+}
+
+.no-card-overflow .card > p::after,
+.no-card-overflow .card h3 + p::after {
+    display: none;
+}
+
 /* =========================================================
    CONTACT BOX
 ========================================================= */
