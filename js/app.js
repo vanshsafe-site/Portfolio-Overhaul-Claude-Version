@@ -589,19 +589,43 @@ async function loadVenture() {
 
     container.innerHTML = `
 
-        <div class="project-page">
+    <div class="project-page">
 
-            <h1>
-                ${data.name}
-            </h1>
+        <h1>
+            ${data.name}
+        </h1>
 
-            <p>
-                ${data.description}
-            </p>
+        <p>
+            ${data.description}
+        </p>
+
+        <div class="project-links">
+
+            ${
+                data.website
+                ? `
+                <a
+                    href="${data.website}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-primary">
+                    Visit Website
+                </a>
+                `
+                : ""
+            }
+
+            <a
+                href="ventures.html"
+                class="btn">
+                Back to Ventures
+            </a>
 
         </div>
 
-    `;
+    </div>
+
+`;
 }
 /* =========================
    ACHIEVEMENT PAGE
@@ -1089,7 +1113,6 @@ if (editingProjectId) {
                 title,
                 slug,
                 description,
-                image,
                 github_url,
                 live_url,
                 featured
@@ -1111,7 +1134,6 @@ if (editingProjectId) {
                     title,
                     slug,
                     description,
-                    image,
                     github_url,
                     live_url,
                     featured
@@ -1217,11 +1239,6 @@ async function editProject(id) {
         "description"
     ).value =
         data.description || "";
-
-    document.getElementById(
-        "image"
-    ).value =
-        data.image || "";
 
     document.getElementById(
         "github"
@@ -1339,7 +1356,6 @@ async function createVenture(event) {
                     slug,
                     description,
                     website,
-                    logo,
                     featured
                 })
                 .eq(
@@ -1360,7 +1376,6 @@ async function createVenture(event) {
                         slug,
                         description,
                         website,
-                        logo,
                         featured
                     }
                 ]);
@@ -1439,11 +1454,6 @@ async function editVenture(id) {
         "venture-website"
     ).value =
         data.website || "";
-
-    document.getElementById(
-        "venture-logo"
-    ).value =
-        data.logo || "";
 
     document.getElementById(
         "venture-featured"
