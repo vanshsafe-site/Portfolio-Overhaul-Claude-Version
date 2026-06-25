@@ -1,92 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Admin Ventures</title>
-<button
-    onclick="logout()"
-    class="btn">
-
-    Logout
-
-</button>
-    <link rel="stylesheet"
-          href="../css/style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Ventures</title>
+    <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
 
-<div class="container">
+<div id="toast-container"></div>
 
-    <h1>
-        Venture Manager
-    </h1>
-
-    <form id="venture-form">
-
-        <input
-            type="text"
-            id="venture-name"
-            placeholder="Venture Name"
-            required>
-
-        <input
-            type="text"
-            id="venture-slug"
-            placeholder="venture-slug"
-            required>
-
-        <textarea
-            id="venture-description"
-            placeholder="Description"></textarea>
-
-        <input
-            type="text"
-            id="venture-website"
-            placeholder="Website URL">
-
-        <input
-            type="text"
-            id="venture-logo"
-            placeholder="Logo URL">
-
-        <label>
-
-            <input
-                type="checkbox"
-                id="venture-featured">
-
-            Featured
-
-        </label>
-
-        <button
-            type="submit">
-
-            Add Venture
-
-        </button>
-
-    </form>
-
-    <hr>
-
-    <div id="admin-ventures">
-
-        Loading...
-
+<div class="modal-overlay" id="confirm-modal">
+    <div class="modal-box">
+        <div class="modal-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6"/><path d="M14 11v6"/>
+            </svg>
+        </div>
+        <div class="modal-title" id="confirm-title">Delete venture?</div>
+        <p class="modal-message" id="confirm-message">This will permanently remove the venture from your portfolio.</p>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" id="confirm-no">Cancel</button>
+            <button class="btn btn-danger" id="confirm-yes">Delete</button>
+        </div>
     </div>
-
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div class="mobile-overlay" id="mobile-overlay"></div>
+<button class="mobile-toggle" id="mobile-toggle" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+</button>
 
+<div class="admin-layout">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <div class="brand-gem">V</div>
+                <div>
+                    <span>Vansh Garg</span>
+                    <span class="brand-sub">Portfolio Admin</span>
+                </div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <span class="nav-group-label">Navigation</span>
+            <a href="dashboard.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+            <span class="nav-group-label">Content</span>
+            <a href="projects.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>Projects</a>
+            <a href="ventures.html" class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Ventures</a>
+            <a href="achievements.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Achievements</a>
+            <span class="nav-group-label">System</span>
+            <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button onclick="logout()" class="nav-item nav-item--danger" style="width:100%">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content" id="main-content">
+
+        <div class="page-header">
+            <div class="page-header-text">
+                <h1>Ventures</h1>
+                <p>Add, edit, and remove ventures and side-projects.</p>
+            </div>
+        </div>
+
+        <div class="manager-content">
+
+            <div class="panel" id="form-panel">
+                <div class="panel-header">
+                    <span class="panel-title" id="form-panel-title">Add venture</span>
+                    <button class="btn btn-secondary btn-icon" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none" title="Cancel edit">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <form id="venture-form" class="admin-form">
+
+                        <div class="form-field">
+                            <label for="venture-name">Venture name</label>
+                            <input type="text" id="venture-name" placeholder="Startup Name" required>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="venture-slug">URL slug</label>
+                            <input type="text" id="venture-slug" class="slug-input" placeholder="startup-name" required>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="venture-description">Description</label>
+                            <textarea id="venture-description" placeholder="What is this venture about?"></textarea>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="venture-website">Website URL</label>
+                            <input type="text" id="venture-website" placeholder="https://…">
+                        </div>
+
+                    
+
+                        <div class="form-field checkbox-field">
+                            <input type="checkbox" id="venture-featured">
+                            <label for="venture-featured">Show on homepage (featured)</label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="venture-submit-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                Add venture
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">All ventures</span>
+                    <span class="count-badge" id="ventures-count-badge">0</span>
+                </div>
+                <div class="panel-body">
+                    <div id="admin-ventures">
+                        <div class="loading-dots"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/admin.js"></script>
 <script src="../js/app.js"></script>
+<script>
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    mobileToggle.addEventListener('click', () => { sidebar.classList.toggle('open'); mobileOverlay.classList.toggle('active'); });
+    mobileOverlay.addEventListener('click', () => { sidebar.classList.remove('open'); mobileOverlay.classList.remove('active'); });
+
+    // Auto-slug
+    const nameInput = document.getElementById('venture-name');
+    const slugInput = document.getElementById('venture-slug');
+    nameInput.addEventListener('input', () => {
+        if (!slugInput.dataset.manual) {
+            slugInput.value = nameInput.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        }
+    });
+    slugInput.addEventListener('input', () => { slugInput.dataset.manual = slugInput.value ? '1' : ''; });
+
+    // Logo URL preview
+    const logoInput = document.getElementById('venture-logo');
+    const logoPreview = document.getElementById('logo-preview');
+    logoInput.addEventListener('input', () => {
+        const val = logoInput.value.trim();
+        if (val) { logoPreview.src = val; logoPreview.classList.add('visible'); }
+        else { logoPreview.classList.remove('visible'); }
+    });
+
+    function cancelEdit() {
+        document.getElementById('venture-form').reset();
+        document.getElementById('logo-preview').classList.remove('visible');
+        window.editingVentureId = null;
+        document.getElementById('venture-submit-btn').innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add venture`;
+        document.getElementById('form-panel-title').textContent = 'Add venture';
+        document.getElementById('form-panel-title').classList.remove('editing');
+        document.getElementById('cancel-edit-btn').style.display = 'none';
+        slugInput.dataset.manual = '';
+    }
+</script>
 
 </body>
 </html>

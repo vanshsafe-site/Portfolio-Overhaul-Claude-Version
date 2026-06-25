@@ -217,10 +217,7 @@ console.log("Slug:", slug);
     
         <div class="project-page">
 
-            <img
-                src="${data.image}"
-                alt="${data.title}"
-                class="project-image">
+           
 
             <h1>
                 ${data.title}
@@ -380,10 +377,7 @@ console.log(data, error);
         ${
             data.image
             ? `
-            <img
-                src="${data.image}"
-                alt="${data.title}"
-                class="project-image">
+           
             `
             : ""
         }
@@ -829,10 +823,7 @@ async function createProject(event) {
             "description"
         ).value;
 
-    const image =
-        document.getElementById(
-            "image"
-        ).value;
+    
 
     const github_url =
         document.getElementById(
@@ -1111,10 +1102,6 @@ async function createVenture(event) {
             "venture-website"
         ).value;
 
-    const logo =
-        document.getElementById(
-            "venture-logo"
-        ).value;
 
     const featured =
         document.getElementById(
@@ -1706,47 +1693,6 @@ async function logout() {
    IMAGE UPLOAD
 ========================= */
 
-async function uploadProjectImage() {
-
-    const fileInput =
-        document.getElementById(
-            "project-image-file"
-        );
-
-    if (
-        !fileInput ||
-        !fileInput.files.length
-    ) return;
-
-    const file =
-        fileInput.files[0];
-
-    const fileName =
-        Date.now() +
-        "-" +
-        file.name;
-
-    const { error } =
-        await supabaseClient
-            .storage
-            .from(
-                "portfolio-images"
-            )
-            .upload(
-                fileName,
-                file
-            );
-
-    if (error) {
-
-        console.error(error);
-
-        alert(
-            error.message
-        );
-
-        return;
-    }
 
     const { data } =
         supabaseClient
@@ -1763,7 +1709,7 @@ async function uploadProjectImage() {
     ).value =
         data.publicUrl;
 
-}
+
 /* =========================
    ACHIEVEMENT IMAGE UPLOAD
 ========================= */
