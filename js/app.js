@@ -353,11 +353,22 @@ function renderFrontendVentures(ventures) {
                 ${venture.description}
             </p>
 
-            <a
-                href="venture.html?slug=${venture.slug}"
-                class="btn btn-primary">
-                View Venture
-            </a>
+            <div class="card-actions">
+                <a
+                    href="venture.html?slug=${venture.slug}"
+                    class="btn btn-primary">
+                    View Venture
+                </a>
+                ${venture.live_url ? `
+                <a
+                    href="${venture.live_url}"
+                    class="btn btn-secondary"
+                    target="_blank"
+                    rel="noreferrer noopener">
+                    View Demo
+                </a>
+                ` : ""}
+            </div>
         </div>
     `).join("");
 }

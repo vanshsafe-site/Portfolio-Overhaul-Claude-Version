@@ -639,18 +639,33 @@ header p {
     box-shadow: 0 14px 30px -10px rgb(var(--primary-rgb) / 0.55);
 }
 
-/* =========================================================
-   GRID
-========================================================= */
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.btn-secondary {
+    background: rgba(47, 111, 237, 0.08);
+    color: var(--primary);
+    border-color: rgba(47, 111, 237, 0.35);
+}
+
+.btn-secondary:hover {
+    background: rgba(47, 111, 237, 0.14);
+    border-color: rgba(47, 111, 237, 0.65);
+    color: var(--primary);
+}
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.75rem;
-}
-
-/* =========================================================
-   CARD  (terminal-window styling)
 ========================================================= */
 
 .card {
@@ -689,8 +704,8 @@ header p {
     inset: 0;
     background:
         radial-gradient(220px circle at var(--mx, 45%) var(--my, 30%), rgb(var(--accent-rgb) / 0.18), transparent 40%),
-        radial-gradient(160px circle at 80% 20%, rgba(47, 111, 237, 0.12), transparent 50%),
-        radial-gradient(140px circle at 25% 85%, rgba(255, 146, 66, 0.12), transparent 50%);
+        radial-gradient(160px circle at 80% 20%, rgba(47, 111, 237, 0.18), transparent 50%),
+        radial-gradient(140px circle at 25% 85%, rgba(54, 173, 255, 0.14), transparent 50%);
     opacity: 0;
     transition: opacity .3s ease;
     pointer-events: none;
