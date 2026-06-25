@@ -307,6 +307,126 @@ function setupAchievementSearch() {
     });
 }
 
+// Frontend data storage
+let frontendProjectsData = [];
+let frontendVenturesData = [];
+let frontendAchievementsData = [];
+
+/* =========================
+   FRONTEND SEARCH & RENDER HELPERS
+========================= */
+
+function renderFrontendProjects(projects) {
+    const container = document.getElementById("projects-grid");
+    if (!container) return;
+    
+    container.innerHTML = projects.map(project => `
+        <div class="card">
+            <h3>
+                ${project.title}
+            </h3>
+
+            <p>
+                ${project.description}
+            </p>
+
+            <a
+                href="project.html?slug=${project.slug}"
+                class="btn btn-primary">
+                View Project
+            </a>
+        </div>
+    `).join("");
+}
+
+function renderFrontendVentures(ventures) {
+    const container = document.getElementById("ventures-page-grid");
+    if (!container) return;
+    
+    container.innerHTML = ventures.map(venture => `
+        <div class="card">
+            <h3>
+                ${venture.name}
+            </h3>
+
+            <p>
+                ${venture.description}
+            </p>
+
+            <a
+                href="venture.html?slug=${venture.slug}"
+                class="btn btn-primary">
+                View Venture
+            </a>
+        </div>
+    `).join("");
+}
+
+function renderFrontendAchievements(achievements) {
+    const container = document.getElementById("achievements-page-grid");
+    if (!container) return;
+    
+    container.innerHTML = achievements.map(item => `
+        <div class="card">
+            <h3>
+                ${item.title}
+            </h3>
+
+            <p>
+                ${item.description}
+            </p>
+
+            <a
+                href="achievement.html?slug=${item.slug}"
+                class="btn btn-primary">
+                View Achievement
+            </a>
+        </div>
+    `).join("");
+}
+
+function setupFrontendProjectSearch() {
+    const searchInput = document.getElementById("projects-search");
+    if (!searchInput) return;
+    
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = frontendProjectsData.filter(p => 
+            p.title.toLowerCase().includes(query) || 
+            (p.description && p.description.toLowerCase().includes(query))
+        );
+        renderFrontendProjects(filtered);
+    });
+}
+
+function setupFrontendVentureSearch() {
+    const searchInput = document.getElementById("ventures-search");
+    if (!searchInput) return;
+    
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = frontendVenturesData.filter(v => 
+            v.name.toLowerCase().includes(query) || 
+            (v.description && v.description.toLowerCase().includes(query))
+        );
+        renderFrontendVentures(filtered);
+    });
+}
+
+function setupFrontendAchievementSearch() {
+    const searchInput = document.getElementById("achievements-search");
+    if (!searchInput) return;
+    
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = frontendAchievementsData.filter(a => 
+            a.title.toLowerCase().includes(query) || 
+            (a.description && a.description.toLowerCase().includes(query))
+        );
+        renderFrontendAchievements(filtered);
+    });
+}
+
 /* =========================
    PROJECT PAGE
 ========================= */
@@ -624,30 +744,14 @@ async function loadProjects() {
         return;
     }
 
-    container.innerHTML =
-        data.map(project => `
-
-            <div class="card">
-
-                <h3>
-                    ${project.title}
-                </h3>
-
-                <p>
-                    ${project.description}
-                </p>
-
-                <a
-                    href="project.html?slug=${project.slug}"
-                    class="btn btn-primary">
-
-                    View Project
-
-                </a>
-
-            </div>
-
-        `).join("");
+    // Store data for search filtering
+    frontendProjectsData = data;
+    
+    // Render the cards
+    renderFrontendProjects(data);
+    
+    // Set up search
+    setupFrontendProjectSearch();
 }
 
 
@@ -800,30 +904,14 @@ async function loadAllVentures() {
         return;
     }
 
-    container.innerHTML =
-        data.map(venture => `
-
-            <div class="card">
-
-    <h3>
-        ${venture.name}
-    </h3>
-
-    <p>
-        ${venture.description}
-    </p>
-
-    <a
-        href="venture.html?slug=${venture.slug}"
-        class="btn btn-primary">
-
-        View Venture
-
-    </a>
-
-</div>
-
-        `).join("");
+    // Store data for search filtering
+    frontendVenturesData = data;
+    
+    // Render the cards
+    renderFrontendVentures(data);
+    
+    // Set up search
+    setupFrontendVentureSearch();
 }
 
 /* =========================
@@ -858,30 +946,14 @@ async function loadAllAchievements() {
         return;
     }
 
-    container.innerHTML =
-        data.map(item => `
-
-            <div class="card">
-
-    <h3>
-        ${item.title}
-    </h3>
-
-    <p>
-        ${item.description}
-    </p>
-
-    <a
-        href="achievement.html?slug=${item.slug}"
-        class="btn btn-primary">
-
-        View Achievement
-
-    </a>
-
-</div>
-
-        `).join("");
+    // Store data for search filtering
+    frontendAchievementsData = data;
+    
+    // Render the cards
+    renderFrontendAchievements(data);
+    
+    // Set up search
+    setupFrontendAchievementSearch();
 }
 
 
