@@ -641,14 +641,6 @@ console.log(data, error);
 
     <div class="project-page">
 
-        ${
-            data.image
-            ? `
-           
-            `
-            : ""
-        }
-
         <h1>
             ${data.title}
         </h1>
@@ -657,9 +649,42 @@ console.log(data, error);
             ${data.description}
         </p>
 
+        ${data.image ? `
+            <div class="achievement-image-block">
+                <img
+                    src="${data.image}"
+                    alt="Certificate for ${data.title}"
+                    class="achievement-image"
+                    id="achievement-preview-image"
+                    title="Click to toggle fullscreen"
+                >
+                <p class="achievement-image-hint">
+                    Tap the certificate to enter or exit fullscreen.
+                </p>
+            </div>
+        ` : ""}
+
     </div>
 
 `;
+
+    if (data.image) {
+        const previewImage = document.getElementById("achievement-preview-image");
+
+        if (previewImage && previewImage.requestFullscreen) {
+            previewImage.addEventListener("click", async () => {
+                try {
+                    if (document.fullscreenElement === previewImage) {
+                        await document.exitFullscreen();
+                    } else {
+                        await previewImage.requestFullscreen();
+                    }
+                } catch (err) {
+                    console.warn("Fullscreen not available", err);
+                }
+            });
+        }
+    }
 }
 /* =========================
    PROJECTS
@@ -1853,27 +1878,6 @@ async function logout() {
         "login.html";
 
 }
-
-/* =========================
-   IMAGE UPLOAD
-========================= */
-
-
-    const { data } =
-        supabaseClient
-            .storage
-            .from(
-                "portfolio-images"
-            )
-            .getPublicUrl(
-                fileName
-            );
-
-    document.getElementById(
-        "image"
-    ).value =
-        data.publicUrl;
-
 
 /* =========================
    ACHIEVEMENT IMAGE UPLOAD
