@@ -135,8 +135,11 @@
 
             <div class="panel">
                 <div class="panel-header">
-                    <span class="panel-title">All achievements</span>
-                    <span class="count-badge" id="achievements-count-badge">0</span>
+                    <div style="flex: 1; display: flex; align-items: center; gap: 12px;">
+                        <span class="panel-title">All achievements</span>
+                        <span class="count-badge" id="achievements-count-badge">0</span>
+                    </div>
+                    <input type="text" id="achievement-search" placeholder="Search achievements..." style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--card); color: var(--text); font-size: 0.85rem; width: 200px;">
                 </div>
                 <div class="panel-body">
                     <div id="admin-achievements">

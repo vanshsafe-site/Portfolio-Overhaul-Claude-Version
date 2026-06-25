@@ -160,6 +160,153 @@ let editingProjectId = null;
 let editingVentureId = null;
 let editingAchievementId = null;
 
+// Search/filter data storage
+let allProjectsData = [];
+let allVenturesData = [];
+let allAchievementsData = [];
+
+/* =========================
+   SEARCH & FILTER HELPERS
+========================= */
+
+function renderProjectCards(projects) {
+    const container = document.getElementById("admin-projects");
+    if (!container) return;
+    
+    container.innerHTML = projects.map(project => `
+        <div class="admin-card">
+            <div class="admin-card-body">
+                <h3 class="admin-card-title">
+                    ${project.title}
+                </h3>
+
+                <p class="admin-card-desc">
+                    ${project.description}
+                </p>
+            </div>
+
+            <div class="admin-card-actions">
+                <button class="btn btn-secondary"
+                    onclick="editProject(${project.id})">
+                    Edit
+                </button>
+
+                <button class="btn btn-danger"
+                    onclick="deleteProject(${project.id})">
+                    Delete
+                </button>
+            </div>
+
+        </div>
+    `).join("");
+}
+
+function renderVentureCards(ventures) {
+    const container = document.getElementById("admin-ventures");
+    if (!container) return;
+    
+    container.innerHTML = ventures.map(venture => `
+        <div class="admin-card">
+            <div class="admin-card-body">
+                <h3 class="admin-card-title">
+                    ${venture.name}
+                </h3>
+
+                <p class="admin-card-desc">
+                    ${venture.description}
+                </p>
+            </div>
+
+            <div class="admin-card-actions">
+                <button class="btn btn-secondary"
+                    onclick="editVenture(${venture.id})">
+                    Edit
+                </button>
+
+                <button class="btn btn-danger"
+                    onclick="deleteVenture(${venture.id})">
+                    Delete
+                </button>
+            </div>
+
+        </div>
+    `).join("");
+}
+
+function renderAchievementCards(achievements) {
+    const container = document.getElementById("admin-achievements");
+    if (!container) return;
+    
+    container.innerHTML = achievements.map(item => `
+        <div class="admin-card">
+            <div class="admin-card-body">
+                <h3 class="admin-card-title">
+                    ${item.title}
+                </h3>
+
+                <p class="admin-card-desc">
+                    ${item.description}
+                </p>
+            </div>
+
+            <div class="admin-card-actions">
+                <button class="btn btn-secondary"
+                    onclick="editAchievement(${item.id})">
+                    Edit
+                </button>
+
+                <button class="btn btn-danger"
+                    onclick="deleteAchievement(${item.id})">
+                    Delete
+                </button>
+            </div>
+
+        </div>
+    `).join("");
+}
+
+function setupProjectSearch() {
+    const searchInput = document.getElementById("project-search");
+    if (!searchInput) return;
+    
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = allProjectsData.filter(p => 
+            p.title.toLowerCase().includes(query) || 
+            (p.description && p.description.toLowerCase().includes(query))
+        );
+        renderProjectCards(filtered);
+    });
+}
+
+function setupVentureSearch() {
+    const searchInput = document.getElementById("venture-search");
+    if (!searchInput) return;
+    
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = allVenturesData.filter(v => 
+            v.name.toLowerCase().includes(query) || 
+            (v.description && v.description.toLowerCase().includes(query))
+        );
+        renderVentureCards(filtered);
+    });
+}
+
+function setupAchievementSearch() {
+    const searchInput = document.getElementById("achievement-search");
+    if (!searchInput) return;
+    
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = allAchievementsData.filter(a => 
+            a.title.toLowerCase().includes(query) || 
+            (a.description && a.description.toLowerCase().includes(query))
+        );
+        renderAchievementCards(filtered);
+    });
+}
+
 /* =========================
    PROJECT PAGE
 ========================= */
@@ -750,6 +897,10 @@ async function loadAdminProjects() {
         );
 
     if (!container) return;
+    
+    // Clear search input
+    const searchInput = document.getElementById("project-search");
+    if (searchInput) searchInput.value = "";
 
     const { data, error } =
         await supabaseClient
@@ -772,37 +923,16 @@ async function loadAdminProjects() {
         return;
     }
 
-    container.innerHTML =
-    data.map(project => `
+    // Store data for search filtering
+    allProjectsData = data;
+    
+    // Render the cards
+    renderProjectCards(data);
+    
+    // Set up search
+    setupProjectSearch();
 
-        <div class="admin-card">
-            <div class="admin-card-body">
-                <h3 class="admin-card-title">
-                    ${project.title}
-                </h3>
-
-                <p class="admin-card-desc">
-                    ${project.description}
-                </p>
-            </div>
-
-            <div class="admin-card-actions">
-                <button class="btn btn-secondary"
-                    onclick="editProject(${project.id})">
-                    Edit
-                </button>
-
-                <button class="btn btn-danger"
-                    onclick="deleteProject(${project.id})">
-                    Delete
-                </button>
-            </div>
-
-        </div>
-
-    `).join("");
-
-    }
+}
 async function createProject(event) {
 
     event.preventDefault();
@@ -1024,6 +1154,10 @@ async function loadAdminVentures() {
         );
 
     if (!container) return;
+    
+    // Clear search input
+    const searchInput = document.getElementById("venture-search");
+    if (searchInput) searchInput.value = "";
 
     const { data, error } =
         await supabaseClient
@@ -1043,35 +1177,14 @@ async function loadAdminVentures() {
         return;
     }
 
-    container.innerHTML =
-        data.map(venture => `
-
-            <div class="admin-card">
-                <div class="admin-card-body">
-                    <h3 class="admin-card-title">
-                        ${venture.name}
-                    </h3>
-
-                    <p class="admin-card-desc">
-                        ${venture.description}
-                    </p>
-                </div>
-
-                <div class="admin-card-actions">
-                    <button class="btn btn-secondary"
-                        onclick="editVenture(${venture.id})">
-                        Edit
-                    </button>
-
-                    <button class="btn btn-danger"
-                        onclick="deleteVenture(${venture.id})">
-                        Delete
-                    </button>
-                </div>
-
-            </div>
-
-        `).join("");
+    // Store data for search filtering
+    allVenturesData = data;
+    
+    // Render the cards
+    renderVentureCards(data);
+    
+    // Set up search
+    setupVentureSearch();
 
 }
 
@@ -1278,6 +1391,10 @@ async function loadAdminAchievements() {
         );
 
     if (!container) return;
+    
+    // Clear search input
+    const searchInput = document.getElementById("achievement-search");
+    if (searchInput) searchInput.value = "";
 
     const { data, error } =
         await supabaseClient
@@ -1297,35 +1414,14 @@ async function loadAdminAchievements() {
         return;
     }
 
-    container.innerHTML =
-        data.map(item => `
-
-            <div class="admin-card">
-                <div class="admin-card-body">
-                    <h3 class="admin-card-title">
-                        ${item.title}
-                    </h3>
-
-                    <p class="admin-card-desc">
-                        ${item.description}
-                    </p>
-                </div>
-
-                <div class="admin-card-actions">
-                    <button class="btn btn-secondary"
-                        onclick="editAchievement(${item.id})">
-                        Edit
-                    </button>
-
-                    <button class="btn btn-danger"
-                        onclick="deleteAchievement(${item.id})">
-                        Delete
-                    </button>
-                </div>
-
-            </div>
-
-        `).join("");
+    // Store data for search filtering
+    allAchievementsData = data;
+    
+    // Render the cards
+    renderAchievementCards(data);
+    
+    // Set up search
+    setupAchievementSearch();
 
 }
 
